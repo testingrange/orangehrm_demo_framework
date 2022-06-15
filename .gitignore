@@ -3,3 +3,5 @@
 /screenshots
 *.log
 *__pycache__
+orangehrm_readme
+/test_cases

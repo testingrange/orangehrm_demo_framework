@@ -4,8 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-selenium = "*"
 pytest = "*"
+selenium = "==3.141.0"
+pytest-html = "*"
 
 [dev-packages]
 

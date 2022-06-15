@@ -18,12 +18,12 @@ def logger(logLevel=logging.INFO, logName=f"{time_stamp()}automation_session.log
         os.makedirs(logger_directory)
 
     # Creating filehandler
-    fileHangler = logging.FileHandler(f"{logger_directory}{logName}", mode="a")
-    fileHangler.setLevel(logLevel)
+    fileHandler = logging.FileHandler(f"{logger_directory}{logName}", mode="a")
+    fileHandler.setLevel(logLevel)
 
     # Creating formatter
     formatter = logging.Formatter("%(asctime)s- %(name)s- %(levelname)s- %(message)s", datefmt="%Y/%m/%d_%H:%M:%S")
 
-    fileHangler.setFormatter(formatter)
-    logger.addHandler(fileHangler)
+    fileHandler.setFormatter(formatter)
+    logger.addHandler(fileHandler)
     return logger
