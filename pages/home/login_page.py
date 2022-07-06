@@ -1,8 +1,8 @@
 import logging
 from utilities import logger
-from base.generalDriver import GeneralDriver as GD
+from base.selenium_driver import SeleniumDriver as SD
 
-class LoginPage(GD):
+class LoginPage(SD):
 
     log = logger(logging.INFO)
 
@@ -27,7 +27,12 @@ class LoginPage(GD):
     def click_on_login_button(self):
         self.click_on_element(self._login_btn)
 
+    def clear_fields(self):
+        pass
+
     def fill_the_login_form(self, userName, password):
         self.enter_userName(userName)
         self.enter_password(password)
         self.click_on_login_button()
+
+

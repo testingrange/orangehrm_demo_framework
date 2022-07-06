@@ -1,10 +1,13 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import *
+from selenium.webdriver.support import expected_conditions as EC
 from utilities.logger import logger
 import logging
 from traceback import print_stack
 
-class GeneralDriver():
+class SeleniumDriver():
 
     log = logger(logging.INFO)
 
@@ -44,7 +47,7 @@ class GeneralDriver():
         try:
             element = self.get_element(locator, locator_type)
             element.send_keys(text)
-            self.log.info(f"Text - '{text}' has been sent to element with locator - {lcator} and locator_type - {locator_type}")
+            self.log.info(f"Text - '{text}' has been sent to element with locator - {locator} and locator_type - {locator_type}")
         except:
             self.log.error(f"Exception occurred while trying to send keys - {text} to elemetn with locator - {locator} and locator_type - {locator_type}")
             print_stack()
@@ -53,11 +56,20 @@ class GeneralDriver():
         try:
             element = self.get_element(locator, locator_type)
             element.click()
-            self.log.info(f"Element with locator - {lcator} and locator_type - {locator_type} has been clicked on")
+            self.log.info(f"Element with locator - {locator} and locator_type - {locator_type} has been clicked on")
         except:
-            self.log_error(f"Exception occurred while trying to click on element with locator - {lcator} and locator_type - {locator_type}")
+            self.log_error(f"Exception occurred while trying to click on element with locator - {locator} and locator_type - {locator_type}")
             print_stack()
 
-    def wait_for_element(self):
-        pass
+    def wait_for_element(self, locator, locator_type='id', timeout=10, poll=0.5):
+        element = None
+        self.log.info(f"Waiting for element with locator - {locator} and locator_type - {locator_type} to be clickable for {time} seconds")
+        wait = WebDriverWait(self.driver, timeout, poll_frequency=poll, ignored_exceptions=[NoSuchElementException, ElementNotVisibleException, ElementNotSelectableException])
+        try:
+            element = wait.until(EC.element_to_be_clickable((self.get_by_type(locator_type), locator)))
+            self.log.info(f"Element with locator - {locator} and locator_type - {locator_type} is clickable")
+        except:
+            self.log.error(f"Element with locator - {locator} and locator_type - {locator_type} remains not clickable after {time} seconds")
+        return element
+
 
