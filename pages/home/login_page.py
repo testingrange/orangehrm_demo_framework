@@ -1,7 +1,8 @@
 import logging
 from utilities import logger
+from base.generalDriver import GeneralDriver as GD
 
-class LoginPage():
+class LoginPage(GD):
 
     log = logger(logging.INFO)
 
@@ -10,11 +11,23 @@ class LoginPage():
         self.driver = driver
 
     # Locators
-    _user_name_fld = "txtUsername"
-    _password_fld = "txtPassword"
-    _login_btn = "btnLogin"
-    _warn_msg = "spanMessage"
+    _user_name_fld = "txtUsername"  #id
+    _password_fld = "txtPassword"  #id
+    _login_btn = "btnLogin"  #id
+    _warn_msg = "spanMessage"  #id
 
-    def test_positive_login_and_password(self):
-        pass
-        
+
+    # Methods
+    def enter_userName(self, userName):
+        self.send_keys_to_element(userName, self._user_name_fld)
+
+    def enter_password(self, password):
+        self.send_keys_to_element(password, self._password_fld)
+
+    def click_on_login_button(self):
+        self.click_on_element(self._login_btn)
+
+    def fill_the_login_form(self, userName, password):
+        self.enter_userName(userName)
+        self.enter_password(password)
+        self.click_on_login_button()

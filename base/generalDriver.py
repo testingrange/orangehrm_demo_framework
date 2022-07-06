@@ -40,3 +40,24 @@ class GeneralDriver():
             print_stack()
         return element
 
+    def send_keys_to_element(self, text, locator, locator_type = "id"):
+        try:
+            element = self.get_element(locator, locator_type)
+            element.send_keys(text)
+            self.log.info(f"Text - '{text}' has been sent to element with locator - {lcator} and locator_type - {locator_type}")
+        except:
+            self.log.error(f"Exception occurred while trying to send keys - {text} to elemetn with locator - {locator} and locator_type - {locator_type}")
+            print_stack()
+
+    def click_on_element(self, locator, locator_type):
+        try:
+            element = self.get_element(locator, locator_type)
+            element.click()
+            self.log.info(f"Element with locator - {lcator} and locator_type - {locator_type} has been clicked on")
+        except:
+            self.log_error(f"Exception occurred while trying to click on element with locator - {lcator} and locator_type - {locator_type}")
+            print_stack()
+
+    def wait_for_element(self):
+        pass
+
