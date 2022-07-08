@@ -4,8 +4,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import *
 from selenium.webdriver.support import expected_conditions as EC
 from utilities.logger import logger
+from utilities.util import time_stamp
 import logging
 from traceback import print_stack
+import os
 
 class SeleniumDriver():
 
@@ -13,6 +15,22 @@ class SeleniumDriver():
 
     def __init__(self, driver=webdriver.Chrome()):
         self.driver = driver
+
+    def screenshot(self, message):
+        """Saving a screenshot module"""
+        proj_dir = os.getcwd()
+        screenshot_fold_dir = f"{proj_dir}screenshots/"
+        screenshot_name = f"{time_stamp()}_{message}.jpeg"
+        full_screenshot_dir = f"{screenshot_fold_dir}{screenshot_name}"
+        try:
+            if not os.path.exists(screenshot_fold_dir):
+                os.makedirs(screenshot_fold_dir)
+            self.driver.save_screenshot(full_screenshot_dir)
+            self.log.info(f"Screenshot - {screenshot_name} was saved to following directory - {screenshot_fold_dir}")
+        except:
+            self.log.error(f"Error occurred at attempt to save a screenshot {full_screenshot_dir}")
+            print_stack()
+
 
     def get_by_type(self, locator_type="id"):
         locator_type = locator_type.upper()
@@ -71,5 +89,8 @@ class SeleniumDriver():
         except:
             self.log.error(f"Element with locator - {locator} and locator_type - {locator_type} remains not clickable after {time} seconds")
         return element
+
+    def is_element_present(self, locator, locator_type="id"):
+        pass
 
 

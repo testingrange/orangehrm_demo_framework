@@ -1,5 +1,5 @@
-from datetime import datetime
+import time
 
 def time_stamp():
-    return str(datetime.now().strftime("%Y%m%d_"))
+    return str(time.strftime("%Y%m%d_"))
 

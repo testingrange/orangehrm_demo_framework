@@ -11,10 +11,12 @@ class LoginPage(SD):
         self.driver = driver
 
     # Locators
-    _user_name_fld = "txtUsername"  #id
-    _password_fld = "txtPassword"  #id
-    _login_btn = "btnLogin"  #id
-    _warn_msg = "spanMessage"  #id
+    _user_name_fld = "txtUsername"  # id
+    _password_fld = "txtPassword"  # id
+    _login_btn = "btnLogin"  # id
+    _warn_msg = "spanMessage"  # id
+    _acc_icon = "welcome" # id
+    _dashboard_sect = "//h1[contains(text(), 'Dashboard')]" # xpath
 
 
     # Methods
@@ -30,9 +32,13 @@ class LoginPage(SD):
     def clear_fields(self):
         pass
 
-    def fill_the_login_form(self, userName, password):
+    def fill_the_login_form(self, userName="", password=""):
         self.enter_userName(userName)
         self.enter_password(password)
         self.click_on_login_button()
 
+    def verify_account_icon_present(self):
+        pass
 
+    def verify_dashboard_sect_present(self):
+        pass
