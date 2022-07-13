@@ -1,4 +1,4 @@
-#from selenium import webdriver
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import *
@@ -14,7 +14,7 @@ class SeleniumDriver():
     log = logger(logging.INFO)
     util = Util()
 
-    def __init__(self, driver):
+    def __init__(self, driver=webdriver.Chrome()):
         self.driver = driver
 
     def screenshot(self, message):
@@ -108,5 +108,44 @@ class SeleniumDriver():
         title = self.driver.title
         self.log.info(f"Title of the web page is {title}")
         return title
+
+    def get_text(self, locator, locator_type="id"):
+        """
+        Get Text of the element
+        Provide locator and locator_type of the element to get text of it
+        :param locator:
+        :param locator_type:
+        :param info:
+        :return: text text of element
+        """
+        try:
+            element = self.get_element(locator, locator_type)
+            text = element.text
+            if len(text) == 0:
+                text = element.get_attribute("innerText")
+                self.log.info(f"Text of the element is - {text}")
+            if len(text) != 0:
+                self.log.info(f"Getting text of the element")
+                self.log.info(f"The text is - {text}")
+        except:
+            self.log.error(f"Exception occurred while trying to get element's text")
+            print_stack()
+            text=None
+        return text
+
+    def is_element_displayed(self, locator, locator_type="id"):
+        pass
+
+    def page_scroll(self, scroll_by=100):
+        """
+        Method to scroll browser screen by pixels.
+        Scroll down - positive integer example - '100'
+        Scroll up - negative integer example '- 100'
+        :param scroll_by:
+        :return:
+        """
+        pass
+
+
 
 
