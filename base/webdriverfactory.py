@@ -12,7 +12,7 @@ class WebDriverFactory():
     log = logger(logging.INFO)
 
     def __init__(self, browser):
-        self.browser = browser.lower()
+        self.browser = browser
 
     def get_webdriver_instance(self):
         """
@@ -33,9 +33,11 @@ class WebDriverFactory():
             self.log.info(f"Webdriver initiated with Internet Explorer")
         else:
             driver = webdriver.Chrome()
-            self.log.warn(f"Fiven type of browser IS NOT supported. Webdriver initiated with Chrome browser")
+            self.log.warn(f"Given type of browser IS NOT supported. Webdriver initiated with Chrome browser")
 
         driver.maximize_window()
         driver.implicitly_wait(5)
         driver.get(baseURL)
+        self.log.info(f"Starting with {baseURL}")
         return driver
+

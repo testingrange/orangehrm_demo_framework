@@ -1,11 +1,12 @@
 import inspect
 import logging
 import os
+import time
 from selenium import webdriver
-from utilities.util import time_stamp
 
+date_stamp = time.strftime("%Y%m%d_")
 
-def logger(logLevel=logging.INFO, logName=f"{time_stamp()}automation_session.log"):
+def logger(logLevel=logging.INFO, logName=f"{date_stamp}automation_session.log"):
     loggerName = inspect.stack()[1][3]
 
     logger = logging.getLogger(loggerName)

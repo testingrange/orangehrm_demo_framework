@@ -8,7 +8,7 @@ class TestStatus(SD):
     log = logger(logging.INFO)
 
     def __init__(self, driver):
-        super.__init__(driver)
+        super().__init__(driver)
         self.resultList = []
 
     def set_result(self, result, result_message):
@@ -21,15 +21,15 @@ class TestStatus(SD):
                 else:
                     self.resultList.append("FAIL")
                     self.screenshot(result_message)
-                    self.log.error(f"VERIFICATION SUCCESSFUL :: {result_message}")
+                    self.log.error(f"VERIFICATION FAILED :: {self.util.verification_message(result_message)}")
             else:
                 self.resultList.append("FAIL")
                 self.screenshot(result_message)
-                self.log.error(f"VERIFICATION SUCCESSFUL :: {result_message}")
+                self.log.error(f"VERIFICATION FAILED :: {{self.util.verification_message(result_message)}}")
         except:
             self.resultList.append("FAIL")
-            self.screenshot(result_message)
-            self.log.error(f"Exception occurred while trying to get a test result :: {result_message}")
+            self.screenshot(self.util.verification_message(result_message))
+            self.log.error(f"Exception occurred while trying to get a test result :: {self.util.verification_message(result_message)}")
 
     def mark(self, result, result_message):
         """
@@ -46,7 +46,7 @@ class TestStatus(SD):
         self.set_result(result, result_message)
 
         if "FAIL" in self.resultList:
-            self.log.error(f"{test_name} Failed")
+            self.log.error(f"{test_name} failed")
             self.resultList.clear()
             assert True == False
         else:

@@ -1,17 +1,19 @@
 import logging
-from utilities import logger
-from base.selenium_driver import SeleniumDriver as SD
+from utilities.logger import logger
+from base.basepage import BasePage as BP
+import time
 
-class LoginPage(SD):
+
+class LoginPage(BP):
 
     log = logger(logging.INFO)
 
     def __init__(self, driver):
-        super.__init__(driver)
+        super().__init__(driver)
         self.driver = driver
 
     # Locators
-    _user_name_fld = "txtUsername"  # id
+    _user_name_fld = "//input[@id='txtUsername']"  # xpath
     _password_fld = "txtPassword"  # id
     _login_btn = "btnLogin"  # id
     _warn_msg = "spanMessage"  # id
@@ -21,7 +23,7 @@ class LoginPage(SD):
 
     # Methods
     def enter_userName(self, userName):
-        self.send_keys_to_element(userName, self._user_name_fld)
+        self.send_keys_to_element(userName, self._user_name_fld, locator_type="xpath")
 
     def enter_password(self, password):
         self.send_keys_to_element(password, self._password_fld)
@@ -36,9 +38,13 @@ class LoginPage(SD):
         self.enter_userName(userName)
         self.enter_password(password)
         self.click_on_login_button()
+        time.sleep(3)
 
     def verify_account_icon_present(self):
-        pass
+        return self.is_element_present(self._acc_icon)
 
     def verify_dashboard_sect_present(self):
-        pass
+        return self.is_element_present(self._dashboard_sect, "xpath")
+
+    def verify_page_title(self, title):
+        return self.verify_title(title)
