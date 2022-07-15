@@ -11,13 +11,18 @@ class BasePage(SD):
         self.driver = driver
         self.util = Util()
 
-    def verify_element_contains_text(self, text_to_verify, locator, locator_type='id'):
+    def verify_element_text_match(self, text_to_verify, locator, locator_type='id'):
         """
+        Method for verification of the text of a given element
         """
         try:
-            element = self.get_element(locator, locator_type)
+            self.log.info(f"Verifying if the element contains text - '{text_to_verify}'")
+            element_text = self.get_text(locator, locator_type)
+            return self.util.verify_text_match(text_to_verify, element_text)
         except:
-            pass
+            self.log.error("Exception occurred during the verification element's text process. Verification failed.")
+            print_stack()
+            return False
 
     def verify_title(self, title_to_verify):
         try:

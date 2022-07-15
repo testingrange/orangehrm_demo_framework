@@ -1,4 +1,6 @@
 import time
+from traceback import print_stack
+
 from utilities.logger import logger
 import logging
 
@@ -20,11 +22,32 @@ class Util():
             self.log.info(f"Expected_text - {expected_text} has not matched")
             return False
 
+    def verify_text_contain(self, expected_text, actual_text):
+        pass
+
     def verification_message(self, message):
         message_list = message.split()
         is_pos = message_list.index('is')
         message_list.insert(is_pos+1, "NOT")
         return " ".join(message_list)
+
+    def sleep(self, sec=2, info=None):
+        """
+        Put execution of the script to wait for sertain time in seconds
+        :param sec:
+        :param info:
+        :return:
+        """
+        try:
+            if info is not None:
+                self.log.info(f"Sleep for {sec} seconds for {info}")
+            else:
+                self.log.info(f"Sleep for {sec} seconds")
+            time.sleep(sec)
+        except:
+            self.log.error("Exception occurred while executing sleep command")
+            print_stack()
+
 
 
 

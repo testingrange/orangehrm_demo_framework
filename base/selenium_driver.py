@@ -136,6 +136,9 @@ class SeleniumDriver():
     def is_element_displayed(self, locator, locator_type="id"):
         pass
 
+    def is_element_enabled(self):
+        pass
+
     def page_scroll(self, scroll_by=100):
         """
         Method to scroll browser screen by pixels.
@@ -146,6 +149,14 @@ class SeleniumDriver():
         """
         pass
 
+    def switch_to_the_frame(self):
+        pass
+
+    def switch_to_default_content(self):
+        pass
+
+    def get_element_attribute_value(self):
+        pass
 
 
 
