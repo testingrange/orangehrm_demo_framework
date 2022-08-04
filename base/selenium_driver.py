@@ -136,9 +136,6 @@ class SeleniumDriver():
     def is_element_displayed(self, locator, locator_type="id"):
         pass
 
-    def is_element_enabled(self):
-        pass
-
     def page_scroll(self, scroll_by=100):
         """
         Method to scroll browser screen by pixels.
@@ -149,14 +146,51 @@ class SeleniumDriver():
         """
         pass
 
-    def switch_to_the_frame(self):
-        pass
+    def switch_to_frame(self, frameLocator):
+        """
+        Switch to iframe using parameters is, name, index
+        :param id: (str) id of the iframe
+        :param name: (str) name of the iframe
+        :param index: (int) index of the iframe
+        :return:
+        """
+        self.log.info(f"Switching to the frame with frameLocator - {frameLocator}")
+        self.driver.switch_to.frame(frameLocator)
 
     def switch_to_default_content(self):
-        pass
+        self.log.info("Switching back to default content")
+        self.driver.switch_to.default_content()
 
-    def get_element_attribute_value(self):
-        pass
+    def get_element_attribute_value(self, attribute, locator="", locator_type="id", element=None):
+        value = None
+        try:
+            if locator:
+                element = self.get_element(locator, locator_type)
+            value = element.get_attribute(attribute)
+            self.log.info(f"Value of the element's attribute {attribute} is {value}.")
+        except:
+            self.log.error(f"Exception occurred at attempt to get element's attribute - {attribute}")
+        return value
 
+    def is_element_enabled(self, locator, locator_type):
+        """Check if element is enabled"""
+        enabled = False
+        element = self.get_element(locator, locator_type)
+        try:
+            self.log.info(f"Trying to check if element contains attribute 'disabled'")
+            attribute_value = self.get_element_attribute_value("disabled", locator, locator_type)
+            if attribute_value is not None:
+                enabled = element.is_enabled()
+            else:
+                value = self.get_element_attribute_value(attribute="class", element=element)
+                self.log.info(f"Attribute value From Application Web UI is {value}")
+                enabled = not("disabled" in value)
+            if enabled:
+                self.log.info(f"Element is enabled")
+            else:
+                self.log.warn(f"Element is not enabled")
+        except:
+            self.log.error("Element state couldn't be found")
+        return enabled
 
 
