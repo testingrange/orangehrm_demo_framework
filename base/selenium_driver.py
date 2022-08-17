@@ -14,7 +14,7 @@ class SeleniumDriver():
     log = logger(logging.INFO)
     util = Util()
 
-    def __init__(self, driver=webdriver.Chrome()):
+    def __init__(self, driver):
         self.driver = driver
 
     def screenshot(self, message):

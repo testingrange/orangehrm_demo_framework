@@ -13,23 +13,27 @@ class LoginPage(BP):
         self.driver = driver
 
     # Locators
-    _user_name_fld = "//input[@id='txtUsername']"  # xpath
-    _password_fld = "txtPassword"  # id
-    _login_btn = "btnLogin"  # id
-    _warn_msg = "spanMessage"  # id
-    _acc_icon = "welcome" # id
+    _user_name_fld = "//input[@name='username']"  # xpath
+    _password_fld = "//input[@name='password']"  # xpath
+    _login_btn = "//button[contains(.,' Login ')]"  # xpath
+    _warn_msg = "//p[contains(.,'Invalid credentials')]"  # xpath
+    #_acc_icon = "welcome" # id
     _dashboard_sect = "//h1[contains(text(), 'Dashboard')]" # xpath
+    _login_header = "//h5[contains(@class,'orangehrm-login-title')]"
+    _orangehrm_logo = "//div[@class='orangehrm-login-logo']/img" # xpath
+    _user_name_required_msg = "//form[@class='oxd-form']/div[@class='oxd-form-row'][2]//span[contains(.,'Required')]"
+    _password_required_msg = "//form[@class='oxd-form']/div[@class='oxd-form-row'][2]//span[contains(.,'Required')]"
 
 
     # Methods
     def enter_userName(self, userName):
-        self.send_keys_to_element(userName, self._user_name_fld, locator_type="xpath")
+        self.send_keys_to_element(userName, self._user_name_fld, "xpath")
 
     def enter_password(self, password):
-        self.send_keys_to_element(password, self._password_fld)
+        self.send_keys_to_element(password, self._password_fld, "xpath")
 
     def click_on_login_button(self):
-        self.click_on_element(self._login_btn)
+        self.click_on_element(self._login_btn, "xpath")
 
     def clear_fields(self):
         pass
@@ -50,15 +54,27 @@ class LoginPage(BP):
     def verify_page_title(self, title):
         return self.verify_title(title)
 
-    def verify_warning_message(self, warning_message):
-        return self.verify_element_text_match(warning_message, self._warn_msg)
+    def verify_username_req_message(self):
+        return self.is_element_present(self._user_name_required_msg, "xpath")
+
+    def verify_password_req_message(self):
+        return self.is_element_present(self._password_required_msg, "xpath")
 
     def verify_login_btn_is_present(self):
-        return self.is_element_present(self._login_btn)
+        return self.is_element_present(self._login_btn, "xpath")
+
+    def verify_login_header_is_present(self):
+        return self.is_element_present(self._login_header, "xpath")
+
+    def verify_orange_hrm_logo_is_present(self):
+        return self.is_element_present(self._orangehrm_logo, "xpath")
+
+    def verify_invalid_credentials_warning_msg(self):
+        return self.is_element_present(self._warn_msg, "xpath")
 
     def clear_fields(self):
-        usrname_fld = self.get_element(self._user_name_fld, locator_type="xpath")
+        usrname_fld = self.get_element(self._user_name_fld, "xpath")
         usrname_fld.clear()
-        pswrd_fld = self.get_element(self._password_fld)
+        pswrd_fld = self.get_element(self._password_fld, "xpath")
         pswrd_fld.clear()
 
