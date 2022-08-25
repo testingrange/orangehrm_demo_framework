@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import *
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
 from utilities.logger import logger
 from utilities.util import Util
 import logging
@@ -61,6 +62,14 @@ class SeleniumDriver():
             self.log.error(f"Element with locator - {locator} and locator_type - {locator_type} has not been found")
             print_stack()
         return element
+
+    def clear_field(self, locator, locator_type="id"):
+        try:
+            self.log(f"Clear text of element with locator - {locator} and locator_type - {locator_type}")
+            element = self.get_element(locator, locator_type)
+            element.clear()
+        except:
+            self.log.error(f"Exception occurred at attempt to clear element with locator - {locator} and locator_type - {locator_type}")
 
     def send_keys_to_element(self, text, locator, locator_type = "id"):
         try:
@@ -193,4 +202,15 @@ class SeleniumDriver():
             self.log.error("Element state couldn't be found")
         return enabled
 
+    def clear_field(self, locator, locator_type='id'):
+        try:
+            self.log.info(f"Clearing field with locator - '{locator}' and locator_type - '{locator_type}'")
+            field = self.get_element(locator, locator_type)
+            num = len(field.get_attribute('value'))
+            if num > 0:
+                for i in range(num):
+                    field.send_keys(Keys.BACKSPACE)
+            self.log.info(f"Field with locator - '{locator}' and locator_type - '{locator_type}' was cleared.")
+        except:
+            self.log.error(f"Exception occurred while attempt to clear the field with locator - '{locator}' and locator_type - '{locator_type}'")
 

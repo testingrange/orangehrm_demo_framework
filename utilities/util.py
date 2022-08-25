@@ -31,7 +31,7 @@ class Util():
         message_list.insert(is_pos+1, "NOT")
         return " ".join(message_list)
 
-    def sleep(self, sec=2, info=None):
+    def sleep(self, sec, info=None):
         """
         Put execution of the script to wait for sertain time in seconds
         :param sec:
@@ -40,9 +40,9 @@ class Util():
         """
         try:
             if info is not None:
-                self.log.info(f"Sleep for {sec} seconds for {info}")
+                self.log.info(f"Sleep for {str(sec)} seconds for {info}")
             else:
-                self.log.info(f"Sleep for {sec} seconds")
+                self.log.info(f"Sleep for {str(sec)} seconds")
             time.sleep(sec)
         except:
             self.log.error("Exception occurred while executing sleep command")
