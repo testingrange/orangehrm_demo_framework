@@ -33,11 +33,14 @@ class SideNavPage(BP):
 
 
     # methods
-    def navigate_to_leave_page(self):
-        self.click_on_element()
+    def navigate_to_admin_page(self):
+        self.click_on_element(self._admin, "link")
 
     def navigate_to_PIM_page(self):
         self.click_on_element(self._pim, "link")
+
+    def navigate_to_leave_page(self):
+        self.click_on_element(self._leave, "link")
 
     def navigate_to_time_page(self):
         self.click_on_element(self._time, "link")
@@ -62,3 +65,5 @@ class SideNavPage(BP):
 
     def navigate_to_buzz_page(self):
         self.click_on_element(self._buzz, "link")
+
+
