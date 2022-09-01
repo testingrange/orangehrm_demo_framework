@@ -130,7 +130,7 @@ class SeleniumDriver():
         try:
             element = self.get_element(locator, locator_type)
             text = element.text
-            if len(text) == 0:
+            if len(text) == 0 or text == None:
                 text = element.get_attribute("innerText")
                 self.log.info(f"Text of the element is - {text}")
             if len(text) != 0:

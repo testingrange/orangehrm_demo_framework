@@ -14,6 +14,9 @@ class Util():
     def date_time_stamp(self):
         return str(time.strftime("%Y%m%d_%H%M%S"))
 
+    def current_day(self):
+        return str(time.strftime("%Y-%m-%d"))
+
     def verify_text_match(self, expected_text, actual_text):
         if expected_text.lower() == actual_text.lower():
             self.log.info(f"Expected_text - {expected_text} has matched")
