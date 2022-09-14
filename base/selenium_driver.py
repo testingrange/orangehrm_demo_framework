@@ -91,7 +91,7 @@ class SeleniumDriver():
 
     def wait_for_element(self, locator, locator_type='id', timeout=10, poll=0.5):
         element = None
-        self.log.info(f"Waiting for element with locator - {locator} and locator_type - {locator_type} to be clickable for {time} seconds")
+        self.log.info(f"Waiting for element with locator - {locator} and locator_type - {locator_type} to be clickable for {timeout} seconds")
         wait = WebDriverWait(self.driver, timeout, poll_frequency=poll, ignored_exceptions=[NoSuchElementException, ElementNotVisibleException, ElementNotSelectableException])
         try:
             element = wait.until(EC.element_to_be_clickable((self.get_by_type(locator_type), locator)))

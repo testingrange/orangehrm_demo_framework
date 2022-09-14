@@ -22,7 +22,7 @@ class LoginPage(BP):
     _orangehrm_logo = "//div[@class='orangehrm-login-logo']/img" # xpath
     _user_name_required_msg = "//form[@class='oxd-form']/div[@class='oxd-form-row'][1]//span[contains(.,'Required')]" # xpath
     _password_required_msg = "//form[@class='oxd-form']/div[@class='oxd-form-row'][2]//span[contains(.,'Required')]" # xpath
-    _acc_icon = "//li//p[text()='Paul Collings']" # xpath
+    _acc_icon = "//li//img[@class='oxd-userdropdown-img']" # xpath
     _side_pannel = "//nav[@aria-label='Sidepanel']" # xpath
     _navigation_pannel = "//nav[@aria-label='Topbar Menu']" # xpath
 

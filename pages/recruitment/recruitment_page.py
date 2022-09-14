@@ -1,16 +1,16 @@
 from base.basepage import BasePage as BP
 from utilities.logger import logger
 import logging
-from utilities.util import Util
+#from utilities.util import Util
 
 
 
 class RecruitmentPage(BP):
 
-    def __init__(self):
+    def __init__(self, driver):
         super().__init__(driver)
         self.driver = driver
-        self.util = Util()
+        #self.util = Util()
 
 
     # locators
@@ -69,11 +69,11 @@ class RecruitmentPage(BP):
     def click_on_save_button(self):
         self.click_on_element(self._save_btn, "xpath")
 
-    # def verify_add_candidate_page_is_open(self):
-    #     self.is_element_present(self._add_candidate_header, "xpath")
+    def verify_add_candidate_page_is_open(self):
+        self.is_element_present(self._add_candidate_header, "xpath")
 
     def verify_success_toast_message_appeared(self):
-        self.wait_for_element(self._toast_msg_success, "xpath")
+        self.is_element_displayed(self._toast_msg_success, "xpath")
 
     def keep_data_consent(self, consent):
         if consent != "":
@@ -83,7 +83,7 @@ class RecruitmentPage(BP):
         self.click_on_add_button()
         self.enter_first_name(first_name)
         self.enter_last_name(last_name)
-        self.enter_email()
+        self.enter_email(email)
         self.click_on_save_button()
 
 
