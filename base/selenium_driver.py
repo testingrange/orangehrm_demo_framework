@@ -91,18 +91,18 @@ class SeleniumDriver():
 
     def wait_for_element(self, locator, locator_type='id', timeout=10, poll=0.5):
         element = None
-        self.log.info(f"Waiting for element with locator - {locator} and locator_type - {locator_type} to be clickable for {timeout} seconds")
+        self.log.info(f"Waiting for element with locator - {locator} and locator_type - {locator_type} for {timeout} seconds")
         wait = WebDriverWait(self.driver, timeout, poll_frequency=poll, ignored_exceptions=[NoSuchElementException, ElementNotVisibleException, ElementNotSelectableException])
         try:
-            element = wait.until(EC.element_to_be_clickable((self.get_by_type(locator_type), locator)))
-            self.log.info(f"Element with locator - {locator} and locator_type - {locator_type} is clickable")
+            element = wait.until(EC.presence_of_element_located((self.get_by_type(locator_type), locator)))
+            self.log.info(f"Element with locator - {locator} and locator_type - {locator_type} is present")
         except:
-            self.log.error(f"Element with locator - {locator} and locator_type - {locator_type} remains not clickable after {time} seconds")
+            self.log.error(f"Element with locator - {locator} and locator_type - {locator_type} is not present after {time} seconds")
         return element
 
     def is_element_present(self, locator, locator_type="id"):
         try:
-            element = self.get_element(locator, locator_type)
+            element = self.wait_for_element(locator, locator_type)
             if element is not None:
                 self.log.info(f"Element with locator - {locator} and locator_type - {locator_type} is present")
                 return True

@@ -25,7 +25,7 @@ class TestStatus(SD):
             else:
                 self.resultList.append("FAIL")
                 self.screenshot(result_message)
-                self.log.error(f"VERIFICATION FAILED :: {{self.util.verification_message(result_message)}}")
+                self.log.error(f"VERIFICATION FAILED :: {self.util.verification_message(result_message)}")
         except:
             self.resultList.append("FAIL")
             self.screenshot(self.util.verification_message(result_message))

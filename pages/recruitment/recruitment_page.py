@@ -73,7 +73,7 @@ class RecruitmentPage(BP):
         self.is_element_present(self._add_candidate_header, "xpath")
 
     def verify_success_toast_message_appeared(self):
-        self.is_element_displayed(self._toast_msg_success, "xpath")
+        return self.is_element_present(self._toast_msg_success, "xpath")
 
     def keep_data_consent(self, consent):
         if consent != "":

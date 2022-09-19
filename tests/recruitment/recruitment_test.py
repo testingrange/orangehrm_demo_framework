@@ -23,4 +23,4 @@ class RecruitmentTest(unittest.TestCase):
         self.np.navigate_to_recruitment_page()
         self.rp.add_new_candidate(first_name, last_name, email)
         result1 = self.rp.verify_success_toast_message_appeared()
-        self.ts.mark_final("Successfully add new candidate", result1, "New candidate was successfully added")
+        self.ts.mark_final("Successfully add new candidate", result1, "Success message is present")
