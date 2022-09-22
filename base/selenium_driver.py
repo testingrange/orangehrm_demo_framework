@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import *
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from utilities.logger import logger
 from utilities.util import Util
 import logging
@@ -17,6 +18,7 @@ class SeleniumDriver():
 
     def __init__(self, driver):
         self.driver = driver
+        self.action = ActionChains(driver)
 
     def screenshot(self, message):
         """Saving a screenshot module"""
@@ -213,4 +215,5 @@ class SeleniumDriver():
             self.log.info(f"Field with locator - '{locator}' and locator_type - '{locator_type}' was cleared.")
         except:
             self.log.error(f"Exception occurred while attempt to clear the field with locator - '{locator}' and locator_type - '{locator_type}'")
+
 

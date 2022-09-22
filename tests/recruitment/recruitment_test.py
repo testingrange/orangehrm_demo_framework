@@ -24,3 +24,10 @@ class RecruitmentTest(unittest.TestCase):
         self.rp.add_new_candidate(first_name, last_name, email)
         result1 = self.rp.verify_success_toast_message_appeared()
         self.ts.mark_final("Successfully add new candidate", result1, "Success message is present")
+
+    def test_correct_required_fields_data_TCRP006(self, first_name="Adam", last_name="Jonson", email="apjonson@gmail.com", middle_name="Peter", contact_number="(999) 123-45-67", vacancy_name="Associate IT Manager", keywords="associate, it, manager", date="2022-09-01", notes="Test test test", consent="v"):
+        self.lp.fill_the_login_form("Admin", "admin123")
+        self.np.navigate_to_recruitment_page()
+        self.rp.add_new_candidate(first_name, last_name, email, middle_name, contact_number, vacancy_name, keywords, date, notes, consent)
+        result1 = self.rp.verify_success_toast_message_appeared()
+        self.ts.mark_final("Successfully add new candidate", result1, "Success message is present")

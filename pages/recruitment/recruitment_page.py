@@ -16,7 +16,6 @@ class RecruitmentPage(BP):
     # locators
 
     _add_button = "//button[text()=' Add ']"  # xpath
-    _vacancies_button = ""
     _reset_button = ""
     _search_button = ""
     _records_number_header = ""
@@ -25,6 +24,11 @@ class RecruitmentPage(BP):
     _add_candidate_header = "//h6[text()='Add Candidate']" # xpath
     _application_stage_header = "//h6[text()='Application Stage']" # xpath
     _consent_check_box = "//i[@class='oxd-icon bi-check oxd-checkbox-input-icon']" # xpath
+    _vacancy_drop_down_bnt = "//div[@class='oxd-select-text--after']" # xpath
+    _drop_down_list_items = "//div[@role='listbox']//div[contains(text(), '{0}')]"
+    _contact_number = "//div[contains (@class, 'oxd-input-group__label-wrapper') and contains(.,'Contact Number')]/following-sibling::div/input" # xpath
+    _keywords_fld = "//div/input[@placeholder='Enter comma seperated words...']" # xpath
+    _notes_field = "//div/textarea[@placeholder='Type here']" # xpath
 
     # Add candidate form
     _candidates_button = "//a[contains (text(), 'Candidates')]" # xpath
@@ -34,13 +38,12 @@ class RecruitmentPage(BP):
     _email_fld = "//div[contains(@class, 'oxd-input-group__label-wrapper') and contains(.,'Email')]/following-sibling::div/input" # xpath
     _cancel_btn = "//button[text()=' Cancel ']" # xpath
     _save_btn = "//button[@type='submit']" # xpath
-    _vacancy_drop_down = "//div[@class='oxd-select-text oxd-select-text--active']" # xpath
     _consent_to_keep_data = "//i[@class='oxd-icon bi-check oxd-checkbox-input-icon']" # xpath
 
     # table records locators
     _table_record = "//div[@class='oxd-table-card']" # xpath Return all records on the table
     _record_checkbox = "//div[@class='oxd-table-card']//div[@class='oxd-table-card-cell-checkbox']" # xpath
-    _date_of_application_input_fld = "//input[@placeholder='yyyy-mm-dd']" # xpath
+    _date_fld = "//input[@placeholder='yyyy-mm-dd']" # xpath
     _toast_msg_success = "//p[text()='Successfully Saved']" # xpath
 
     #date picker
@@ -66,6 +69,28 @@ class RecruitmentPage(BP):
     def enter_email(self, email):
         self.send_keys_to_element(email, self._email_fld, "xpath")
 
+    def select_vacancy(self, vacancy_name):
+        try:
+            if vacancy_name != "":
+                self.log.info(f"Selecting vacancy - {vacancy_name}")
+                drop_down_btn = self.get_element(self._vacancy_drop_down_bnt, "xpath")
+                vacancy = self.get_element(self._drop_down_list_items.format(vacancy_name), "xpath")
+                self.action.click(drop_down_btn).click(vacancy).perform()
+        except:
+            self.log.error(f"Error happened while selecting vacancy {vacancy_name}")
+
+    def enter_contact_number(self, contact_number):
+        self.send_keys_to_element(contact_number, self._contact_number, "xpath")
+
+    def enter_keywords(self, keywords):
+        self.send_keys_to_element(keywords, self._keywords_fld, "xpath")
+
+    def enter_notes(self, notes):
+        self.send_keys_to_element(notes, self._notes_field, "xpath")
+
+    def enter_date(self, date):
+        self.send_keys_to_element(date, self._date_fld, "xpath")
+
     def click_on_save_button(self):
         self.click_on_element(self._save_btn, "xpath")
 
@@ -79,12 +104,58 @@ class RecruitmentPage(BP):
         if consent != "":
             self.click_on_element(self._consent_to_keep_data, "xpath")
 
-    def add_new_candidate(self, first_name="", last_name="", email="", middle_name="", contact_number="", vacancy="", keywords="", date="", notes="", consent=""):
+    def clear_first_name_fld(self):
+        self.clear_field(self._first_name_fld, "name")
+
+    def clear_middle_name_fld(self):
+        self.clear_field(self._middle_name_fld, "name")
+
+    def clear_last_name_fld(self):
+        self.clear_field(self._last_name_fld, "name")
+
+    def select_first_item_vacancy_list(self):
+        self.select_vacancy("-- Select --")
+
+    def clear_email_fld(self):
+        self.clear_field(self._email_fld, "xpath")
+
+    def clear_contact_number_fld(self):
+        self.clear_field(self._contact_number, "xpath")
+
+    def clear_keywords_fld(self):
+        self.clear_field(self._keywords_fld, "xpath")
+
+    def clear_date_fld(self):
+        self.clear_field(self._date_fld, "xpath")
+
+    def clear_notes_fld(self):
+        self.clear_field(self._notes_field, "xpath")
+
+    def clear_all_fields(self):
+        self.clear_first_name_fld()
+        self.clear_middle_name_fld()
+        self.clear_last_name_fld()
+        self.select_first_item_vacancy_list()
+        self.clear_email_fld()
+        self.clear_contact_number_fld()
+        self.clear_keywords_fld()
+        self.clear_date_fld()
+        self.clear_notes_fld()
+
+    def add_new_candidate(self, first_name="", last_name="", email="", middle_name="", contact_number="", vacancy_name="", keywords="", date="", notes="", consent=""):
+        self.clear_all_fields()
         self.click_on_add_button()
         self.enter_first_name(first_name)
+        self.enter_middle_name(middle_name)
         self.enter_last_name(last_name)
+        self.select_vacancy(vacancy_name)
         self.enter_email(email)
+        self.enter_contact_number(contact_number)
+        self.enter_keywords(keywords)
+        self.enter_date(date)
+        self.enter_notes(notes)
         self.click_on_save_button()
+        self.keep_data_consent(consent)
 
 
 
