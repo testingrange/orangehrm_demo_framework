@@ -176,7 +176,7 @@ class RecruitmentPage(BP):
     _hiring_manager_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
     _application_date_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
     _status_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
-    _created_record = "//div[@class='oxd-table-card']//div[contains(., '{0}') and contains(., '{1} {2}{3}') and contains(., '{4}') and contains(., '{5}')]" #xpath #0-vacancy 1-first name 2 - middle name 3 - last name 4 -date of application 5 - status
+    _created_record = "//div[@class='oxd-table-card']/div[contains(., '{0}') and contains(., '{1} {2}{3}') and contains(., '{4}') and contains(., '{5}')]" #xpath #0-vacancy 1-first name 2 - middle name 3 - last name 4 -date of application 5 - status
 
     # methods
     def verify_no_record_exists(self, first_name, last_name, middle_name, vacancy_name):
@@ -184,9 +184,11 @@ class RecruitmentPage(BP):
 
     def verify_record_exists(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
         self.np.navigate_to_recruitment_page()
-        if middle_name != "":
-            middle_name = middle_name + " "
-        return self.is_element_pgresent(self._created_record.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath")
+        if middle_name != '':
+            middle_name = middle_name + ' '
+        else:
+            middle_name = ' '
+        return self.is_element_present(self._created_record.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath")
 
 
 
