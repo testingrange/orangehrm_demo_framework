@@ -78,4 +78,5 @@ class LoginPage(BP):
         self.clear_fields()
         self.enter_userName(userName)
         self.enter_password(password)
+        self.util.sleep(2)
         self.click_on_login_button()

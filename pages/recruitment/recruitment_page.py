@@ -1,5 +1,7 @@
 from base.basepage import BasePage as BP
 from utilities.logger import logger
+from pages.home.login_page import LoginPage
+from pages.side_nav_panel.side_nav_page import SideNavPage
 import logging
 #from utilities.util import Util
 
@@ -10,6 +12,8 @@ class RecruitmentPage(BP):
     def __init__(self, driver):
         super().__init__(driver)
         self.driver = driver
+        self.lp = LoginPage(driver)
+        self.np = SideNavPage(driver)
         #self.util = Util()
 
 
@@ -25,7 +29,7 @@ class RecruitmentPage(BP):
     _application_stage_header = "//h6[text()='Application Stage']" # xpath
     _consent_check_box = "//i[@class='oxd-icon bi-check oxd-checkbox-input-icon']" # xpath
     _vacancy_drop_down_bnt = "//div[@class='oxd-select-text--after']" # xpath
-    _drop_down_list_items = "//div[@role='listbox']//div[contains(text(), '{0}')]"
+    _drop_down_list_items = "//div[@role='listbox']//div[contains(., '{0}')]"
     _contact_number = "//div[contains (@class, 'oxd-input-group__label-wrapper') and contains(.,'Contact Number')]/following-sibling::div/input" # xpath
     _keywords_fld = "//div/input[@placeholder='Enter comma seperated words...']" # xpath
     _notes_field = "//div/textarea[@placeholder='Type here']" # xpath
@@ -73,9 +77,8 @@ class RecruitmentPage(BP):
         try:
             if vacancy_name != "":
                 self.log.info(f"Selecting vacancy - {vacancy_name}")
-                drop_down_btn = self.get_element(self._vacancy_drop_down_bnt, "xpath")
-                vacancy = self.get_element(self._drop_down_list_items.format(vacancy_name), "xpath")
-                self.action.click(drop_down_btn).click(vacancy).perform()
+                self.click_on_element(self._vacancy_drop_down_bnt, "xpath")
+                self.click_on_element(self._drop_down_list_items.format(vacancy_name), "xpath")
         except:
             self.log.error(f"Error happened while selecting vacancy {vacancy_name}")
 
@@ -95,7 +98,7 @@ class RecruitmentPage(BP):
         self.click_on_element(self._save_btn, "xpath")
 
     def verify_add_candidate_page_is_open(self):
-        self.is_element_present(self._add_candidate_header, "xpath")
+        return self.is_element_present(self._add_candidate_header, "xpath")
 
     def verify_success_toast_message_appeared(self):
         return self.is_element_present(self._toast_msg_success, "xpath")
@@ -131,6 +134,9 @@ class RecruitmentPage(BP):
     def clear_notes_fld(self):
         self.clear_field(self._notes_field, "xpath")
 
+    def log_in_to_app(self):
+        self.lp.fill_the_login_form("Admin", "admin123")
+
     def clear_all_fields(self):
         self.clear_first_name_fld()
         self.clear_middle_name_fld()
@@ -143,7 +149,7 @@ class RecruitmentPage(BP):
         self.clear_notes_fld()
 
     def add_new_candidate(self, first_name="", last_name="", email="", middle_name="", contact_number="", vacancy_name="", keywords="", date="", notes="", consent=""):
-        self.clear_all_fields()
+        self.np.navigate_to_recruitment_page()
         self.click_on_add_button()
         self.enter_first_name(first_name)
         self.enter_middle_name(middle_name)
@@ -152,10 +158,39 @@ class RecruitmentPage(BP):
         self.enter_email(email)
         self.enter_contact_number(contact_number)
         self.enter_keywords(keywords)
+        self.clear_date_fld()
         self.enter_date(date)
         self.enter_notes(notes)
-        self.click_on_save_button()
         self.keep_data_consent(consent)
+        self.util.sleep(2)
+        self.click_on_save_button()
+
+
+    # Verification of records
+
+    # Locators
+
+    _rec_checkbox = ""
+    _vacancy_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
+    _candidate_rec = "//div[@role='cell']/div[contains(text(), '{0} {1}{2}')]"
+    _hiring_manager_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
+    _application_date_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
+    _status_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
+    _created_record = "//div[@class='oxd-table-card']//div[contains(., '{0}') and contains(., '{1} {2}{3}') and contains(., '{4}') and contains(., '{5}')]" #xpath #0-vacancy 1-first name 2 - middle name 3 - last name 4 -date of application 5 - status
+
+    # methods
+    def verify_no_record_exists(self, first_name, last_name, middle_name, vacancy_name):
+        pass
+
+    def verify_record_exists(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
+        self.np.navigate_to_recruitment_page()
+        if middle_name != "":
+            middle_name = middle_name + " "
+        return self.is_element_pgresent(self._created_record.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath")
+
+
+
+
 
 
 
