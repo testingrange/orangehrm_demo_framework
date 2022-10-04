@@ -38,7 +38,7 @@ class RecruitmentTest(unittest.TestCase):
         result2 = self.rp.verify_record_exists(first_name, last_name, middle_name, vacancy_name, date)
         self.ts.mark_final("Successfully add new candidate", result2, "New candidate record is present")
 
-    def test_correct_required_fields_data_TCRP00603(self, first_name="Adam", last_name="Peterson", email="peterson@gmail.com", middle_name="James", contact_number="(999) 234-54-76", vacancy_name="VP - Sales & Marketing", keywords="associate, it, manager", date="2022-09-01", notes="Test test test", consent="v"):
+    def test_correct_required_fields_data_TCRP00603(self, first_name="Adam", last_name="Peterson", email="peterson@gmail.com", middle_name="James", contact_number="(999) 234-54-76", vacancy_name="Software Engineer", keywords="associate, it, manager", date="2022-09-01", notes="Test test test", consent="v"):
         self.rp.add_new_candidate(first_name, last_name, email, middle_name, contact_number, vacancy_name, keywords, date, notes, consent)
         result1 = self.rp.verify_success_toast_message_appeared()
         self.ts.mark(result1, "Success message is present")

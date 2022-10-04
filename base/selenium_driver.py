@@ -4,9 +4,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import *
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
 from utilities.logger import logger
 from utilities.util import Util
+from selenium.webdriver.common.action_chains import ActionChains
 import logging
 from traceback import print_stack
 import os
@@ -18,7 +18,8 @@ class SeleniumDriver():
 
     def __init__(self, driver):
         self.driver = driver
-        self.action = ActionChains(driver)
+        self.actions = ActionChains(driver)
+
 
     def screenshot(self, message):
         """Saving a screenshot module"""
@@ -216,4 +217,13 @@ class SeleniumDriver():
         except:
             self.log.error(f"Exception occurred while attempt to clear the field with locator - '{locator}' and locator_type - '{locator_type}'")
 
+
+    def scroll_into_view(self, locator, locator_type='id'):
+        self.log.info(f"Scrolling till element with locator-{locator} and locator_type-{locator_type} appears into view")
+        try:
+            element = self.get_element(locator, locator_type)
+            self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+            self.log.info("Element is on view")
+        except:
+            self.log.error(f"Error occurred at attempt to scroll element into view")
 

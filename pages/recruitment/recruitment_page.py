@@ -28,8 +28,9 @@ class RecruitmentPage(BP):
     _add_candidate_header = "//h6[text()='Add Candidate']" # xpath
     _application_stage_header = "//h6[text()='Application Stage']" # xpath
     _consent_check_box = "//i[@class='oxd-icon bi-check oxd-checkbox-input-icon']" # xpath
-    _vacancy_drop_down_bnt = "//div[@class='oxd-select-text--after']" # xpath
+    _vacancy_drop_down_btn = "//div[@class='oxd-select-text--after']" # xpath
     _drop_down_list_items = "//div[@role='listbox']//div[contains(., '{0}')]"
+    _list_box = "//div[@role='listbox']"
     _contact_number = "//div[contains (@class, 'oxd-input-group__label-wrapper') and contains(.,'Contact Number')]/following-sibling::div/input" # xpath
     _keywords_fld = "//div/input[@placeholder='Enter comma seperated words...']" # xpath
     _notes_field = "//div/textarea[@placeholder='Type here']" # xpath
@@ -77,8 +78,17 @@ class RecruitmentPage(BP):
         try:
             if vacancy_name != "":
                 self.log.info(f"Selecting vacancy - {vacancy_name}")
-                self.click_on_element(self._vacancy_drop_down_bnt, "xpath")
-                self.click_on_element(self._drop_down_list_items.format(vacancy_name), "xpath")
+                self.util.sleep(1)
+                self.log.debug("Clicking on vacancy drop down bnt")
+                self.click_on_element(self._vacancy_drop_down_btn, "xpath")
+                self.util.sleep(2)
+                listbox = self.get_element(self._list_box, "xpath")
+                self.actions.move_to_element(listbox).perform()
+                self.log.debug("move to listbox element")
+                vacancy_rec = self.get_element(self._drop_down_list_items.format(vacancy_name), "xpath")
+                self.scroll_into_view(self._drop_down_list_items.format(vacancy_name), "xpath")
+                self.actions.click(vacancy_rec).perform()
+                self.util.sleep(2)
         except:
             self.log.error(f"Error happened while selecting vacancy {vacancy_name}")
 
