@@ -3,7 +3,6 @@ from utilities.logger import logger
 from pages.home.login_page import LoginPage
 from pages.side_nav_panel.side_nav_page import SideNavPage
 import logging
-#from utilities.util import Util
 
 
 
@@ -14,7 +13,6 @@ class RecruitmentPage(BP):
         self.driver = driver
         self.lp = LoginPage(driver)
         self.np = SideNavPage(driver)
-        #self.util = Util()
 
 
     # locators
@@ -51,7 +49,18 @@ class RecruitmentPage(BP):
     _date_fld = "//input[@placeholder='yyyy-mm-dd']" # xpath
     _toast_msg_success = "//p[text()='Successfully Saved']" # xpath
 
+    # Locators
+    _rec_checkbox = ""
+    #_vacancy_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
+    #_candidate_rec = "//div[@role='cell']/div[contains(text(), '{0} {1}{2}')]"
+    _hiring_manager_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
+    _application_date_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
+    _status_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
+    _created_record = "//div[@class='oxd-table-card']/div[contains(., '{0}') and contains(., '{1} {2}{3}') and contains(., '{4}') and contains(., '{5}')]"  # xpath #0-vacancy 1-first name 2 - middle name 3 - last name 4 -date of application 5 - status
+    _delete_record_btn = "//div[@class='oxd-table-card']/div[contains(., '{0}') and contains(., '{1} {2}{3}') and contains(., '{4}') and contains(., '{5}')]//i[@class='oxd-icon bi-trash']" # xpath
+    _confirm_deliting_btn = "//button[contains(., ' Yes, Delete ')]" # xpath
     #date picker
+
 
     _current_date = "//div[@class='oxd-calendar-date --selected --today']" # xpath
 
@@ -78,17 +87,12 @@ class RecruitmentPage(BP):
         try:
             if vacancy_name != "":
                 self.log.info(f"Selecting vacancy - {vacancy_name}")
-                self.util.sleep(1)
                 self.log.debug("Clicking on vacancy drop down bnt")
                 self.click_on_element(self._vacancy_drop_down_btn, "xpath")
-                self.util.sleep(2)
-                listbox = self.get_element(self._list_box, "xpath")
-                self.actions.move_to_element(listbox).perform()
+                self.actions.move_to_element(self.get_element(self._list_box, "xpath")).perform()
                 self.log.debug("move to listbox element")
-                vacancy_rec = self.get_element(self._drop_down_list_items.format(vacancy_name), "xpath")
                 self.scroll_into_view(self._drop_down_list_items.format(vacancy_name), "xpath")
-                self.actions.click(vacancy_rec).perform()
-                self.util.sleep(2)
+                self.actions.click(self.get_element(self._drop_down_list_items.format(vacancy_name), "xpath")).perform()
         except:
             self.log.error(f"Error happened while selecting vacancy {vacancy_name}")
 
@@ -176,21 +180,17 @@ class RecruitmentPage(BP):
         self.click_on_save_button()
 
 
-    # Verification of records
+    ### Verification of records
 
-    # Locators
-
-    _rec_checkbox = ""
-    _vacancy_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
-    _candidate_rec = "//div[@role='cell']/div[contains(text(), '{0} {1}{2}')]"
-    _hiring_manager_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
-    _application_date_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
-    _status_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
-    _created_record = "//div[@class='oxd-table-card']/div[contains(., '{0}') and contains(., '{1} {2}{3}') and contains(., '{4}') and contains(., '{5}')]" #xpath #0-vacancy 1-first name 2 - middle name 3 - last name 4 -date of application 5 - status
-
-    # methods
-    def verify_no_record_exists(self, first_name, last_name, middle_name, vacancy_name):
-        pass
+        # methods
+    def verify_no_record_exists(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
+        self.np.navigate_to_recruitment_page()
+        if middle_name != '':
+            middle_name = middle_name + ' '
+        else:
+            middle_name = ' '
+        if not self.is_element_present(self._created_record.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath"):
+            return True
 
     def verify_record_exists(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
         self.np.navigate_to_recruitment_page()
@@ -199,6 +199,16 @@ class RecruitmentPage(BP):
         else:
             middle_name = ' '
         return self.is_element_present(self._created_record.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath")
+
+    def delete_existing_record(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
+        self.np.navigate_to_recruitment_page()
+        if middle_name != '':
+            middle_name = middle_name + ' '
+        else:
+            middle_name = ' '
+        self.click_on_element(self._delete_record_btn.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath")
+        self.click_on_element(self._confirm_deliting_btn, "xpath")
+
 
 
 
