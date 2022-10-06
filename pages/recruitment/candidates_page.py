@@ -6,7 +6,7 @@ import logging
 
 
 
-class RecruitmentPage(BP):
+class CandidatesPage(BP):
 
     def __init__(self, driver):
         super().__init__(driver)

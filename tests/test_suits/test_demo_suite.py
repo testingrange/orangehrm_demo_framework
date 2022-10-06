@@ -1,6 +1,6 @@
 import unittest
 from tests.home.login_test import LoginTest
-from tests.recruitment.recruitment_test import RecruitmentTest
+from tests.recruitment.candidates_test import RecruitmentTest
 
 
 # Loading test cases from test classes to execute in the current test suite
