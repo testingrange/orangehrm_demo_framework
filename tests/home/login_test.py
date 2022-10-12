@@ -14,7 +14,7 @@ class LoginTest(unittest.TestCase):
         self.ts = TestStatus(self.driver)
 
     @pytest.mark.run(order=1)
-    def test_empty_fields(self):
+    def test_empty_fields_TC_OHRM_LP_002(self):
         self.lp.fill_the_login_form()
         result1 = self.lp.verify_username_req_message()
         self.ts.mark(result1, "Username required message is present")
@@ -24,7 +24,7 @@ class LoginTest(unittest.TestCase):
         self.ts.mark_final("Empty login and password fields test", result3, "Login button is present")
 
     @pytest.mark.run(order=2)
-    def test_invalid_username_valid_password(self):
+    def test_invalid_username_valid_password_TC_OHRM_LP_003(self):
         self.lp.fill_the_login_form("InvalidUsrname", "admin123")
         result1 = self.lp.verify_login_btn_is_present()
         self.ts.mark(result1, "Login button is present")
@@ -32,7 +32,7 @@ class LoginTest(unittest.TestCase):
         self.ts.mark_final("Invalid username and valid password test", result2, "Warning message is present")
 
     @pytest.mark.run(order=3)
-    def test_valid_username_invalid_password(self):
+    def test_valid_username_invalid_password_TC_OHRM_LP_004(self):
         self.lp.fill_the_login_form("Admin", "Invpassword")
         result1 = self.lp.verify_login_btn_is_present()
         self.ts.mark(result1, "Login button is present")
@@ -40,7 +40,7 @@ class LoginTest(unittest.TestCase):
         self.ts.mark_final("Valid username and invalid password test", result2, "Warning message is present")
 
     @pytest.mark.run(order=4)
-    def test_empty_username_valid_password(self):
+    def test_empty_username_valid_password_TC_OHRM_LP_005(self):
         self.lp.fill_the_login_form("", "admin123")
         result1 = self.lp.verify_username_req_message()
         self.ts.mark(result1, "Required message is present")
@@ -48,7 +48,7 @@ class LoginTest(unittest.TestCase):
         self.ts.mark_final("Empty username and valid password test", result2, "Login button is present")
 
     @pytest.mark.run(order=5)
-    def test_valid_username_empty_password(self):
+    def test_valid_username_empty_password_TC_OHRM_LP_006(self):
         self.lp.clear_fields()
         self.lp.fill_the_login_form("Admin", "")
         result1 = self.lp.verify_password_req_message()
@@ -57,7 +57,7 @@ class LoginTest(unittest.TestCase):
         self.ts.mark_final("Valid username and empty password test", result2, "Login button is present")
 
     @pytest.mark.run(order=6)
-    def test_valid_username_and_password(self):
+    def test_valid_username_and_password_TC_OHRM_LP_001(self):
         self.lp.fill_the_login_form("Admin", "admin123")
         result1 = self.lp.verify_side_menu_present()
         self.ts.mark(result1, "Side manu is displayed")

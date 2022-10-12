@@ -51,17 +51,14 @@ class CandidatesPage(BP):
 
     # Locators
     _rec_checkbox = ""
-    #_vacancy_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
-    #_candidate_rec = "//div[@role='cell']/div[contains(text(), '{0} {1}{2}')]"
     _hiring_manager_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
     _application_date_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
     _status_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
     _created_record = "//div[@class='oxd-table-card']/div[contains(., '{0}') and contains(., '{1} {2}{3}') and contains(., '{4}') and contains(., '{5}')]"  # xpath #0-vacancy 1-first name 2 - middle name 3 - last name 4 -date of application 5 - status
     _delete_record_btn = "//div[@class='oxd-table-card']/div[contains(., '{0}') and contains(., '{1} {2}{3}') and contains(., '{4}') and contains(., '{5}')]//i[@class='oxd-icon bi-trash']" # xpath
     _confirm_deliting_btn = "//button[contains(., ' Yes, Delete ')]" # xpath
+
     #date picker
-
-
     _current_date = "//div[@class='oxd-calendar-date --selected --today']" # xpath
 
 
@@ -89,10 +86,11 @@ class CandidatesPage(BP):
                 self.log.info(f"Selecting vacancy - {vacancy_name}")
                 self.log.debug("Clicking on vacancy drop down bnt")
                 self.click_on_element(self._vacancy_drop_down_btn, "xpath")
+                self.log.info("Hover over an element")
                 self.actions.move_to_element(self.get_element(self._list_box, "xpath")).perform()
-                self.log.debug("move to listbox element")
                 self.scroll_into_view(self._drop_down_list_items.format(vacancy_name), "xpath")
-                self.actions.click(self.get_element(self._drop_down_list_items.format(vacancy_name), "xpath")).perform()
+                self.click_on_element(self._drop_down_list_items.format(vacancy_name), "xpath")
+                #self.actions.click(self.get_element(self._drop_down_list_items.format(vacancy_name), "xpath")).perform()
         except:
             self.log.error(f"Error happened while selecting vacancy {vacancy_name}")
 
