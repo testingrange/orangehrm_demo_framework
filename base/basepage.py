@@ -33,3 +33,16 @@ class BasePage(SD):
             self.log.error(f"Verification failed")
             print_stack()
             return False
+
+    def select_item_from_list(self, item, drop_down_btn_locator, drop_down_btn_locator_type, list_box_locator, list_box_locator_type, drop_down_list_items):
+        try:
+            if item != "":
+                self.log.info(f"Selecting item from list - {item}")
+                self.log.debug("Clicking on the item list drop down bnt")
+                self.click_on_element(drop_down_btn_locator, drop_down_btn_locator_type)
+                self.log.info("Hover over an element")
+                self.actions.move_to_element(self.get_element(list_box_locator, list_box_locator_type)).perform()
+                self.scroll_into_view(drop_down_list_items.format(item), "xpath")
+                self.click_on_element(drop_down_list_items.format(item), "xpath")
+        except:
+            self.log.error(f"Error happened while selecting item {item}")

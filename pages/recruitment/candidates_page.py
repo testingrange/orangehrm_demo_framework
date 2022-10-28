@@ -61,6 +61,7 @@ class CandidatesPage(BP):
     #date picker
     _current_date = "//div[@class='oxd-calendar-date --selected --today']" # xpath
 
+    ### Methods
 
     def verify_date_is_current(self):
         self.verify_element_text_match(self.util.current_day(),self._current_date, "xpath")
@@ -80,19 +81,21 @@ class CandidatesPage(BP):
     def enter_email(self, email):
         self.send_keys_to_element(email, self._email_fld, "xpath")
 
+    # def select_vacancy(self, vacancy_name):
+    #     try:
+    #         if vacancy_name != "":
+    #             self.log.info(f"Selecting vacancy - {vacancy_name}")
+    #             self.log.debug("Clicking on vacancy drop down bnt")
+    #             self.click_on_element(self._vacancy_drop_down_btn, "xpath")
+    #             self.log.info("Hover over an element")
+    #             self.actions.move_to_element(self.get_element(self._list_box, "xpath")).perform()
+    #             self.scroll_into_view(self._drop_down_list_items.format(vacancy_name), "xpath")
+    #             self.click_on_element(self._drop_down_list_items.format(vacancy_name), "xpath")
+    #     except:
+    #         self.log.error(f"Error happened while selecting vacancy {vacancy_name}")
+
     def select_vacancy(self, vacancy_name):
-        try:
-            if vacancy_name != "":
-                self.log.info(f"Selecting vacancy - {vacancy_name}")
-                self.log.debug("Clicking on vacancy drop down bnt")
-                self.click_on_element(self._vacancy_drop_down_btn, "xpath")
-                self.log.info("Hover over an element")
-                self.actions.move_to_element(self.get_element(self._list_box, "xpath")).perform()
-                self.scroll_into_view(self._drop_down_list_items.format(vacancy_name), "xpath")
-                self.click_on_element(self._drop_down_list_items.format(vacancy_name), "xpath")
-                #self.actions.click(self.get_element(self._drop_down_list_items.format(vacancy_name), "xpath")).perform()
-        except:
-            self.log.error(f"Error happened while selecting vacancy {vacancy_name}")
+        self.select_item_from_list(vacancy_name, self._vacancy_drop_down_btn, "xpath", self._list_box, "xpath", self._drop_down_list_items)
 
     def enter_contact_number(self, contact_number):
         self.send_keys_to_element(contact_number, self._contact_number, "xpath")
