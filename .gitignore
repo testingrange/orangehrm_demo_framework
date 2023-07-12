@@ -7,3 +7,5 @@ orangehrm_readme
 /reports/*
 *.html
 /assets
+assets
+style.css

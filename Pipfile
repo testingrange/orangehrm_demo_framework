@@ -4,11 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pytest = "*"
+pytest = "==7.2.0"
 selenium = "==3.141.0"
 pytest-html = "*"
 pytest-ordering = "*"
-pywin32 = "*"
 ddt = "*"
 
 [dev-packages]
