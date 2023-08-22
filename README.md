@@ -2,7 +2,8 @@
 
 ## Description:
 Automation testing framework built for the purpose of demonstration of Selenium framework testing capabilities. For this project I'm using [demoOrange HRM application](https://opensource-demo.orangehrmlive.com/) as application under test. 
-![img.png](orange_hrm.png) Demo Orange HRM is a demo application of a well known HR management application.
+![img.png](orange_hrm.png) 
+Demo Orange HRM is a demo application of a well known HR management application.
 
 ### About Orange HRM
 ["Orange HRM"](https://www.orangehrm.com/) is a popular open-source human resource management (HRM) software designed to help organizations manage their human resources effectively. It offers a range of features and functionalities to streamline various HR processes, including employee recruitment, onboarding, attendance tracking, leave management, performance evaluation, time and project management, payroll processing, and more.
