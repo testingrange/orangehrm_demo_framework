@@ -3,6 +3,7 @@
 ## Description:
 Automation testing framework built for the purpose of demonstration of Selenium framework testing capabilities. For this project I'm using [demoOrange HRM application](https://opensource-demo.orangehrmlive.com/) as application under test. 
 ![img.png](orange_hrm.png) 
+
 Demo Orange HRM is a demo application of a well known HR management application.
 
 ### About Orange HRM
