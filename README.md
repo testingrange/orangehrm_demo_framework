@@ -12,7 +12,7 @@ Demo Orange HRM is a demo application of a well known HR management application.
 ### About testing framework:
 ![img.png](selenium.png)
 
-This is a [Selenium version 3](https://www.selenium.dev/documentation/legacy/selenium_3/) testing framework designed specifically for testing the Orange HRM application but might be adopted for testing another web application as well.
+This is a [Selenium version 3](https://www.selenium.dev/documentation/legacy/selenium_3/) testing framework designed specifically for testing the Orange HRM application but might be adapted for testing another web application as well.
 
 For this testing framework I'm using Selenium version 3 Webdriver, which is a popular open-source framework for automating web browser interactions, primarily used for testing web applications. Selenium is powerfull, well-maintained, supported by major browsers, free to use and can be used with many programming languages. In this project I'm using it with [Python](https://www.python.org/) 
 
