@@ -1,15 +1,17 @@
-# Automation testing framework for orangehrm_demo app (Selenium, Python, Pytest)
+# Project: Automation testing framework for orangehrm_demo app (Selenium, Python, Pytest)
 
 ## Description:
-Automation testing framework built for the purpose of demonstration of Selenium framework testing capabilities. For this project I'm using [demoOrange HRM application](https://opensource-demo.orangehrmlive.com/) as application under test. 
-![img.png](orange_hrm.png) 
+![img.png](orange_hrm.png)
 
+Automation testing framework built for the purpose of demonstration of Selenium framework testing capabilities. For this project I'm using [demoOrange HRM application](https://opensource-demo.orangehrmlive.com/) as application under test. 
 Demo Orange HRM is a demo application of a well known HR management application.
 
-### About Orange HRM
+### About Orange HRM:
 ["Orange HRM"](https://www.orangehrm.com/) is a popular open-source human resource management (HRM) software designed to help organizations manage their human resources effectively. It offers a range of features and functionalities to streamline various HR processes, including employee recruitment, onboarding, attendance tracking, leave management, performance evaluation, time and project management, payroll processing, and more.
 
-### About testing framework
+### About testing framework:
+![img.png](selenium.png)
+
 This is a [Selenium version 3](https://www.selenium.dev/documentation/legacy/selenium_3/) testing framework designed specifically for testing the Orange HRM application but might be adopted for testing another web application as well.
 
 For this testing framework I'm using Selenium version 3 Webdriver, which is a popular open-source framework for automating web browser interactions, primarily used for testing web applications. Selenium is powerfull, well-maintained, supported by major browsers, free to use and can be used with many programming languages. In this project I'm using it with [Python](https://www.python.org/) 
@@ -26,7 +28,7 @@ Parallel execution of test cases in this framework implemented by [pytest-xdist]
 
 All the external libraries for reliability of the framework indicated in the [Pipfile](Pipfile)
 
-#### Test Cases in the framework
+#### Test Cases in the framework:
 
 
 #### How to run the script:
@@ -41,3 +43,4 @@ To execute all test cases script, change working directory to the one with the p
 
 Parameters for browsers names: 'chrome', 'firefox', 'ie' for Chrome, Firefox Mozilla and Internet Explorer browsers.
 
+#### Test results:
