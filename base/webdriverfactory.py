@@ -4,6 +4,7 @@ It creates a webdriver instance based on browser configuration
 """
 from selenium import webdriver
 from utilities.logger import logger
+from selenium.webdriver.edge.options import Options as EdgeOptions
 import logging
 
 
@@ -11,8 +12,9 @@ class WebDriverFactory():
 
     log = logger(logging.INFO)
 
-    def __init__(self, browser):
+    def __init__(self, browser, option=None):
         self.browser = browser
+        self.option = option
 
     def get_webdriver_instance(self):
         """
@@ -23,13 +25,28 @@ class WebDriverFactory():
         baseURL = "https://opensource-demo.orangehrmlive.com/"
 
         if self.browser == "chrome":
-            driver = webdriver.Chrome()
+            if option:
+                chrome_options = webdriver.ChromeOptions
+                chrome_options.add_argument('--headless')
+                driver = webdriver.Chrome(options=chrome_options)
+            else:
+                driver = webdriver.Chrome()
             self.log.info(f"Webdriver initiated with Chrome browser")
         elif self.browser == "firefox":
-            driver = webdriver.Firefox()
+            if options:
+                firefox_options = webdriver.FirefoxOptions
+                firefox_options.add_argument('--headless')
+                driver = webdriver.Firefox(options=firefox_options)
+            else:
+                driver = webdriver.Firefox()
             self.log.info(f"Webdriver initiated with Firefox browser")
         elif self.browser == "ie":
-            driver = webdriver.Ie()
+            if options:
+                ie_options = webdriver.IeOptions
+                ie_options.add_argument('--headless')
+                driver = webdriver.Ie(options=ie_options)
+            else:
+                driver = webdriver.Ie()
             self.log.info(f"Webdriver initiated with Internet Explorer")
         else:
             driver = webdriver.Chrome()
