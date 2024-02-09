@@ -4,9 +4,9 @@ from base.webdriverfactory import WebDriverFactory
 import logging
 
 @pytest.fixture(scope="class")
-def sessionSetUp(request, browser, options):
+def sessionSetUp(request, browser, headless):
     log = logger(logging.INFO)
-    web_driver = WebDriverFactory(browser)
+    web_driver = WebDriverFactory(browser, headless)
     driver = web_driver.get_webdriver_instance()
     if request.cls is not None:
         request.cls.driver = driver
@@ -23,5 +23,5 @@ def browser(request):
     return request.config.getoption("--browser")
 
 @pytest.fixture(scope="session")
-def options(request):
+def headless(request):
     return request.config.getoption("--headless")
