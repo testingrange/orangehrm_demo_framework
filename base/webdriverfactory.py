@@ -26,7 +26,7 @@ class WebDriverFactory():
 
         if self.browser == "chrome":
             if self.headless:
-                chrome_options = webdriver.ChromeOptions
+                chrome_options = webdriver.ChromeOptions()
                 chrome_options.add_argument('--headless')
                 driver = webdriver.Chrome(options=chrome_options)
             else:
@@ -34,7 +34,7 @@ class WebDriverFactory():
             self.log.info(f"Webdriver initiated with Chrome browser")
         elif self.browser == "firefox":
             if self.headless:
-                firefox_options = webdriver.FirefoxOptions
+                firefox_options = webdriver.FirefoxOptions()
                 firefox_options.add_argument('--headless')
                 driver = webdriver.Firefox(options=firefox_options)
             else:
@@ -42,7 +42,7 @@ class WebDriverFactory():
             self.log.info(f"Webdriver initiated with Firefox browser")
         elif self.browser == "ie":
             if self.headless:
-                ie_options = webdriver.IeOptions
+                ie_options = webdriver.IeOptions()
                 ie_options.add_argument('--headless')
                 driver = webdriver.Ie(options=ie_options)
             else:

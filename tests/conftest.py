@@ -16,7 +16,7 @@ def sessionSetUp(request, browser, headless):
 
 def pytest_addoption(parser):
     parser.addoption("--browser")
-    parser.addoption("--headless")
+    parser.addoption("--headless",  action="store_true")
 
 @pytest.fixture(scope="session")
 def browser(request):
