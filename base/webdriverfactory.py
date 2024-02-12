@@ -14,7 +14,7 @@ class WebDriverFactory():
 
     def __init__(self, browser, headless=None):
         self.browser = browser
-        self.option = option
+        self.headless = headless
 
     def get_webdriver_instance(self):
         """
@@ -25,7 +25,7 @@ class WebDriverFactory():
         baseURL = "https://opensource-demo.orangehrmlive.com/"
 
         if self.browser == "chrome":
-            if headless:
+            if self.headless:
                 chrome_options = webdriver.ChromeOptions
                 chrome_options.add_argument('--headless')
                 driver = webdriver.Chrome(options=chrome_options)
@@ -33,7 +33,7 @@ class WebDriverFactory():
                 driver = webdriver.Chrome()
             self.log.info(f"Webdriver initiated with Chrome browser")
         elif self.browser == "firefox":
-            if headlesss:
+            if self.headless:
                 firefox_options = webdriver.FirefoxOptions
                 firefox_options.add_argument('--headless')
                 driver = webdriver.Firefox(options=firefox_options)
@@ -41,7 +41,7 @@ class WebDriverFactory():
                 driver = webdriver.Firefox()
             self.log.info(f"Webdriver initiated with Firefox browser")
         elif self.browser == "ie":
-            if headlesss:
+            if self.headless:
                 ie_options = webdriver.IeOptions
                 ie_options.add_argument('--headless')
                 driver = webdriver.Ie(options=ie_options)
