@@ -8,6 +8,8 @@ import logging
 
 class CandidatesPage(BP):
 
+    log = logger(logging.INFO)
+
     def __init__(self, driver):
         super().__init__(driver)
         self.driver = driver
