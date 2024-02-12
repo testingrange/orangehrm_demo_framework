@@ -89,7 +89,7 @@ class CandidatesTest(unittest.TestCase):
     def test_correct_required_fields_data_TCRP006123(self, first_name="Adam", last_name="Peterson",
                                                     email="peterson@gmail.com", middle_name="James",
                                                     contact_number="(999) 234-54-76", vacancy_name="Software Engineer",
-                                                    keywords="associate, it, manager", date="2022-09-01",
+                                                    keywords="associate, it, manager", date="2022-23-01",
                                                     notes="Test test test", consent="v"):
         result1 = self.cp.verify_record_exists(first_name, last_name, middle_name, vacancy_name, date)
         self.ts.mark(result1, "Candidate record is present")

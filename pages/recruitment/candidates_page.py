@@ -48,7 +48,7 @@ class CandidatesPage(BP):
     # table records locators
     _table_record = "//div[@class='oxd-table-card']" # xpath Return all records on the table
     _record_checkbox = "//div[@class='oxd-table-card']//div[@class='oxd-table-card-cell-checkbox']" # xpath
-    _date_fld = "//input[@placeholder='yyyy-mm-dd']" # xpath
+    _date_fld = "//input[@placeholder='yyyy-dd-mm']" # xpath
     _toast_msg_success = "//p[text()='Successfully Saved']" # xpath
 
     # Locators
