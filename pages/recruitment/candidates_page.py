@@ -17,8 +17,7 @@ class CandidatesPage(BP):
         self.np = SideNavPage(driver)
 
 
-    # locators
-
+    # Candidates page locators
     _add_button = "//button[text()=' Add ']"  # xpath
     _reset_button = ""
     _search_button = ""
@@ -30,12 +29,16 @@ class CandidatesPage(BP):
     _consent_check_box = "//i[@class='oxd-icon bi-check oxd-checkbox-input-icon']" # xpath
     _vacancy_drop_down_btn = "//div[@class='oxd-select-text--after']" # xpath
     _drop_down_list_items = "//div[@role='listbox']//div[contains(., '{0}')]"
-    _list_box = "//div[@role='listbox']"
-    _contact_number = "//div[contains (@class, 'oxd-input-group__label-wrapper') and contains(.,'Contact Number')]/following-sibling::div/input" # xpath
-    _keywords_fld = "//div/input[@placeholder='Enter comma seperated words...']" # xpath
-    _notes_field = "//div/textarea[@placeholder='Type here']" # xpath
+
+    # table records locators
+    _table_record = "//div[@class='oxd-table-card']"  # xpath Return all records on the table
+    _record_checkbox = "//div[@class='oxd-table-card']//div[@class='oxd-table-card-cell-checkbox']"  # xpath
+    _pagination_next_page = "//button[@class='oxd-pagination-page-item oxd-pagination-page-item--previous-next']/i[@class='oxd-icon bi-chevron-right']"  # xpath
+    _pagination_previous_page = "//button[@class='oxd-pagination-page-item oxd-pagination-page-item--previous-next']" # xpath
 
     # Add candidate form
+    _date_fld = "//input[@placeholder='yyyy-dd-mm']"  # xpath
+    _toast_msg_success = "//p[text()='Successfully Saved']"  # xpath
     _candidates_button = "//a[contains (text(), 'Candidates')]" # xpath
     _first_name_fld = "firstName" # name
     _middle_name_fld = "middleName" # name
@@ -44,12 +47,10 @@ class CandidatesPage(BP):
     _cancel_btn = "//button[text()=' Cancel ']" # xpath
     _save_btn = "//button[@type='submit']" # xpath
     _consent_to_keep_data = "//i[@class='oxd-icon bi-check oxd-checkbox-input-icon']" # xpath
-
-    # table records locators
-    _table_record = "//div[@class='oxd-table-card']" # xpath Return all records on the table
-    _record_checkbox = "//div[@class='oxd-table-card']//div[@class='oxd-table-card-cell-checkbox']" # xpath
-    _date_fld = "//input[@placeholder='yyyy-dd-mm']" # xpath
-    _toast_msg_success = "//p[text()='Successfully Saved']" # xpath
+    _list_box = "//div[@role='listbox']"
+    _contact_number = "//div[contains (@class, 'oxd-input-group__label-wrapper') and contains(.,'Contact Number')]/following-sibling::div/input"  # xpath
+    _keywords_fld = "//div/input[@placeholder='Enter comma seperated words...']"  # xpath
+    _notes_field = "//div/textarea[@placeholder='Type here']"  # xpath
 
     # Locators
     _rec_checkbox = ""
@@ -113,6 +114,9 @@ class CandidatesPage(BP):
 
     def click_on_save_button(self):
         self.click_on_element(self._save_btn, "xpath")
+
+    def click_on_next_page_btn(self):
+        self.click_on_element(self._pagination_next_page, "xpath")
 
     def verify_add_candidate_page_is_open(self):
         return self.is_element_present(self._add_candidate_header, "xpath")
@@ -195,30 +199,42 @@ class CandidatesPage(BP):
         if not self.is_element_present(self._created_record.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath"):
             return True
 
-    def verify_record_exists(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
-        self.np.navigate_to_recruitment_page()
+    def verify_record_present(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
+        self.log.debug("verify_record_present function begins")
+        middle_name_initial = middle_name
         if middle_name != '':
             middle_name = middle_name + ' '
         else:
             middle_name = ' '
-        return self.is_element_present(self._created_record.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath")
+        if not self.is_element_present(self._created_record.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath") and self.is_element_present(self._pagination_next_page, "xpath"):
+            self.click_on_next_page_btn()
+            self.log.debug("Click on the next page")
+            middle_name = middle_name_initial
+            return self.verify_record_present(first_name, last_name, middle_name, vacancy_name, date, status)
+        else:
+            self.log.debug("Next page button is not found. Verifying element exists.")
+            return self.is_element_present(self._created_record.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath")
+
+    def verify_record_exists(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
+        self.np.navigate_to_recruitment_page()
+        return self.verify_record_present(first_name, last_name, middle_name, vacancy_name, date, status)
+
+    def delete_the_record(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
+        middle_name_initial = middle_name
+        if middle_name != '':
+            middle_name = middle_name + ' '
+        else:
+            middle_name = ' '
+        if not self.is_element_present(
+                self._created_record.format(vacancy_name, first_name, middle_name, last_name, date, status),
+                "xpath") and self.is_element_present(self._pagination_next_page, "xpath"):
+            self.click_on_next_page_btn()
+            self.delete_the_record(first_name, last_name, middle_name, vacancy_name, date, status)
+        else:
+            self.click_on_element(self._delete_record_btn.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath")
+            self.click_on_element(self._confirm_deliting_btn, "xpath")
+
 
     def delete_existing_record(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
         self.np.navigate_to_recruitment_page()
-        if middle_name != '':
-            middle_name = middle_name + ' '
-        else:
-            middle_name = ' '
-        self.click_on_element(self._delete_record_btn.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath")
-        self.click_on_element(self._confirm_deliting_btn, "xpath")
-
-
-
-
-
-
-
-
-
-
-
+        self.delete_the_record(first_name, last_name, middle_name, vacancy_name, date, status)
