@@ -61,8 +61,15 @@ class CandidatesPage(BP):
     _delete_record_btn = "//div[@class='oxd-table-card']/div[contains(., '{0}') and contains(., '{1} {2}{3}') and contains(., '{4}') and contains(., '{5}')]//i[@class='oxd-icon bi-trash']" # xpath
     _confirm_deliting_btn = "//button[contains(., ' Yes, Delete ')]" # xpath
 
-    #date picker
+    # date picker
     _current_date = "//div[@class='oxd-calendar-date --selected --today']" # xpath
+
+    # Filter section
+    _candidate_name_filter_field = "//input[@placeholder='Type for hints...']" # xpath
+    _date_of_application_filter_field = "//input[@placeholder='From']" # xpath
+    
+
+
 
     ### Methods
 
