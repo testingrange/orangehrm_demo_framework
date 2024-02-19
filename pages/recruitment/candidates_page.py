@@ -4,8 +4,6 @@ from pages.home.login_page import LoginPage
 from pages.side_nav_panel.side_nav_page import SideNavPage
 import logging
 
-
-
 class CandidatesPage(BP):
 
     log = logger(logging.INFO)
@@ -15,7 +13,6 @@ class CandidatesPage(BP):
         self.driver = driver
         self.lp = LoginPage(driver)
         self.np = SideNavPage(driver)
-
 
     # Candidates page locators
     _add_button = "//button[text()=' Add ']"  # xpath
@@ -59,7 +56,7 @@ class CandidatesPage(BP):
     _status_rec = "//div[@role='cell']/div[contains(text(), '{0}')]"
     _created_record = "//div[@class='oxd-table-card']/div[contains(., '{0}') and contains(., '{1} {2}{3}') and contains(., '{4}') and contains(., '{5}')]"  # xpath #0-vacancy 1-first name 2 - middle name 3 - last name 4 -date of application 5 - status
     _delete_record_btn = "//div[@class='oxd-table-card']/div[contains(., '{0}') and contains(., '{1} {2}{3}') and contains(., '{4}') and contains(., '{5}')]//i[@class='oxd-icon bi-trash']" # xpath
-    _confirm_deliting_btn = "//button[contains(., ' Yes, Delete ')]" # xpath
+    _confirm_deleting_btn = "//button[contains(., ' Yes, Delete ')]" # xpath
 
     # date picker
     _current_date = "//div[@class='oxd-calendar-date --selected --today']" # xpath
@@ -67,7 +64,7 @@ class CandidatesPage(BP):
     # Filter section
     _candidate_name_filter_field = "//input[@placeholder='Type for hints...']" # xpath
     _date_of_application_filter_field = "//input[@placeholder='From']" # xpath
-    
+
 
 
 
@@ -197,30 +194,41 @@ class CandidatesPage(BP):
     ### Verification of records
 
         # methods
-    def verify_no_record_exists(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
-        self.np.navigate_to_recruitment_page()
-        if middle_name != '':
-            middle_name = middle_name + ' '
-        else:
-            middle_name = ' '
-        if not self.is_element_present(self._created_record.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath"):
-            return True
+    # def verify_no_record_exists(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
+    #     self.np.navigate_to_recruitment_page()
+    #     if middle_name != '':
+    #         middle_name = middle_name + ' '
+    #     else:
+    #         middle_name = ' '
+    #     if not self.is_element_present(self._created_record.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath"):
+    #         return True
 
     def verify_record_present(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
-        self.log.debug("verify_record_present function begins")
+        self.log.info("verify_record_present starts.")
         middle_name_initial = middle_name
         if middle_name != '':
             middle_name = middle_name + ' '
         else:
             middle_name = ' '
+        self.log.info(f"Check that record with first_name - '{first_name}', last_name - '{last_name}', middle_name - '{middle_name}' doesn't exist")
         if not self.is_element_present(self._created_record.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath") and self.is_element_present(self._pagination_next_page, "xpath"):
+            self.log.info("Next page button exist. Checking if element exists on the next page.")
             self.click_on_next_page_btn()
-            self.log.debug("Click on the next page")
+            self.log.info("Click on the next page button.")
             middle_name = middle_name_initial
             return self.verify_record_present(first_name, last_name, middle_name, vacancy_name, date, status)
         else:
-            self.log.debug("Next page button is not found. Verifying element exists.")
+            self.log.info("Verifying if element exists.")
             return self.is_element_present(self._created_record.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath")
+
+    def verify_no_record_exists(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
+        self.np.navigate_to_recruitment_page()
+        if self.verify_record_present(first_name, last_name, middle_name, vacancy_name, date, status):
+            self.log.info(f"Deleting pre-existing record with first_name -'{first_name}' and last_name - '{last_name}' and middle_name - '{middle_name}'")
+            self.delete_the_record(first_name, last_name, middle_name, vacancy_name, date, status)
+            return self.verify_no_record_exists(first_name, last_name, middle_name, vacancy_name, date, status)
+        else:
+            return not self.verify_record_present(first_name, last_name, middle_name, vacancy_name, date, status)
 
     def verify_record_exists(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
         self.np.navigate_to_recruitment_page()
@@ -235,11 +243,14 @@ class CandidatesPage(BP):
         if not self.is_element_present(
                 self._created_record.format(vacancy_name, first_name, middle_name, last_name, date, status),
                 "xpath") and self.is_element_present(self._pagination_next_page, "xpath"):
+            self.log.info("Verifying if element exists on the next page")
             self.click_on_next_page_btn()
+            self.log.info("Click on the next page button")
             self.delete_the_record(first_name, last_name, middle_name, vacancy_name, date, status)
         else:
             self.click_on_element(self._delete_record_btn.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath")
-            self.click_on_element(self._confirm_deliting_btn, "xpath")
+            self.click_on_element(self._confirm_deleting_btn, "xpath")
+            self.log.info(f"Deleting the record with with first_name -'{first_name}' and last_name - '{last_name}' and middle_name - '{middle_name}'")
 
 
     def delete_existing_record(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):

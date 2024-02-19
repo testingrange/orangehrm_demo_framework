@@ -50,6 +50,6 @@ class TestStatus(SD):
             self.resultList.clear()
             assert True == False
         else:
-            self.log.info(f"{test_name} successfullly completed")
+            self.log.info(f"{test_name} successfully completed")
             self.resultList.clear()
             assert True == True

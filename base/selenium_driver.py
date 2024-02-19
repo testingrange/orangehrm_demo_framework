@@ -101,20 +101,20 @@ class SeleniumDriver():
             element = wait.until(EC.presence_of_element_located((self.get_by_type(locator_type), locator)))
             self.log.info(f"Element with locator - {locator} and locator_type - {locator_type} is present")
         except:
-            self.log.error(f"Element with locator - {locator} and locator_type - {locator_type} is not present after {time} seconds")
+            self.log.error(f"Element with locator - {locator} and locator_type - {locator_type} is not present after {timeout} seconds")
         return element
 
     def is_element_present(self, locator, locator_type="id"):
         try:
-            element = self.wait_for_element(locator, locator_type)
+            element = self.get_element(locator, locator_type)
             if element is not None:
-                self.log.info(f"Element with locator - {locator} and locator_type - {locator_type} is present")
+                self.log.info(f"Element with locator - '{locator}' and locator_type - '{locator_type}' is present")
                 return True
             else:
-                self.log.warn(f"Element with locator - {locator} and locator_type - {locator_type} is NOT present")
+                self.log.warning(f"Element with locator - '{locator}' and locator_type - '{locator_type}' is NOT present")
                 return False
         except:
-            self.log.error(f"Exception occurred. Element with locator {locator} and locatorType {locator_type} is NOT present")
+            self.log.error(f"Exception occurred. Element with locator '{locator}' and locatorType '{locator_type}' is NOT present")
             return False
 
     def get_title(self):
