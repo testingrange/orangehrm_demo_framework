@@ -73,8 +73,11 @@ class CandidatesPage(BP):
     _date_of_application_to_field = "//Input[@placeholder='To']" # xpath
     _keywords_field = "//Input[@placeholder='Enter comma seperated words...']" # xpath
 
+    # Error messages
+    _invalid_date_format_error_message = "//span[contains(., 'Should be a valid date in yyyy-dd-mm format')]" # xpath
 
-    ### Methods
+
+    ### Add candidate page methods
 
     def verify_date_is_current(self):
         self.verify_element_text_match(self.util.current_day(),self._current_date, "xpath")
@@ -93,19 +96,6 @@ class CandidatesPage(BP):
 
     def enter_email(self, email):
         self.send_keys_to_element(email, self._email_fld, "xpath")
-
-    # def select_vacancy(self, vacancy_name):
-    #     try:
-    #         if vacancy_name != "":
-    #             self.log.info(f"Selecting vacancy - {vacancy_name}")
-    #             self.log.debug("Clicking on vacancy drop down bnt")
-    #             self.click_on_element(self._vacancy_drop_down_btn, "xpath")
-    #             self.log.info("Hover over an element")
-    #             self.actions.move_to_element(self.get_element(self._list_box, "xpath")).perform()
-    #             self.scroll_into_view(self._drop_down_list_items.format(vacancy_name), "xpath")
-    #             self.click_on_element(self._drop_down_list_items.format(vacancy_name), "xpath")
-    #     except:
-    #         self.log.error(f"Error happened while selecting vacancy {vacancy_name}")
 
     def select_vacancy(self, vacancy_name):
         self.select_item_from_list(vacancy_name, self._vacancy_drop_down_btn, "xpath", self._list_box, "xpath", self._drop_down_list_items)
@@ -137,6 +127,8 @@ class CandidatesPage(BP):
     def keep_data_consent(self, consent):
         if consent != "":
             self.click_on_element(self._consent_to_keep_data, "xpath")
+
+    # Clear candidate page fields methods
 
     def clear_first_name_fld(self):
         self.clear_field(self._first_name_fld, "name")
@@ -199,16 +191,6 @@ class CandidatesPage(BP):
 
     ### Verification of records
 
-        # methods
-    # def verify_no_record_exists(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
-    #     self.np.navigate_to_recruitment_page()
-    #     if middle_name != '':
-    #         middle_name = middle_name + ' '
-    #     else:
-    #         middle_name = ' '
-    #     if not self.is_element_present(self._created_record.format(vacancy_name, first_name, middle_name, last_name, date, status), "xpath"):
-    #         return True
-
     def verify_record_present(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
         self.log.info("verify_record_present starts.")
         middle_name_initial = middle_name
@@ -262,3 +244,16 @@ class CandidatesPage(BP):
     def delete_existing_record(self, first_name="", last_name="", middle_name="", vacancy_name="", date="", status=""):
         self.np.navigate_to_recruitment_page()
         self.delete_the_record(first_name, last_name, middle_name, vacancy_name, date, status)
+
+    # Filter methods
+
+    def clear_app_date_from_field(self):
+        self.clear_field(self._date_of_application_from_field, "xpath")
+
+    def enter_app_date_from(self, date=""):
+        self.np.navigate_to_recruitment_page()
+        self.clear_app_date_from_field()
+        self.send_keys_to_element(date,self._date_of_application_from_field, "xpath")
+
+    def verify_invalid_date_error_present(self):
+        return self.is_element_present(self._invalid_date_format_error_message, "xpath")
