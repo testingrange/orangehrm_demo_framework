@@ -34,7 +34,7 @@ class CandidatesPage(BP):
     _pagination_previous_page = "//button[@class='oxd-pagination-page-item oxd-pagination-page-item--previous-next']" # xpath
 
     # Add candidate form
-    _date_fld = "//input[@placeholder='yyyy-dd-mm']"  # xpath
+    _date_fld = "//input[contains(@placeholder, 'yyyy-mm-dd') or contains(@placeholder, 'yyyy-dd-mm')]"  # xpath
     _toast_msg_success = "//p[text()='Successfully Saved']"  # xpath
     _candidates_button = "//a[contains (text(), 'Candidates')]" # xpath
     _first_name_fld = "firstName" # name
@@ -62,10 +62,16 @@ class CandidatesPage(BP):
     _current_date = "//div[@class='oxd-calendar-date --selected --today']" # xpath
 
     # Filter section
+    _select_job_title_drop_down = "//label[contains(text(), 'Job Title')]/parent::div/following-sibling::div/div/div"  # xpath
+    _select_vacancy_drop_down = "//label[contains(text(), 'Vacancy')]/parent::div/following-sibling::div/div/div"  # xpath
+    _select_hiring_manager_drop_down = "//label[contains(text(), 'Hiring Manager')]/parent::div/following-sibling::div/div/div"  # xpath
+    _select_status_drop_down = "//label[contains(text(), 'Status')]/parent::div/following-sibling::div/div/div" # xpath
+    _select_method_of_application_drop_down = "//label[contains(text(), 'Method of Application')]/parent::div/following-sibling::div/div/div" # xpath
+
     _candidate_name_filter_field = "//input[@placeholder='Type for hints...']" # xpath
-    _date_of_application_filter_field = "//input[@placeholder='From']" # xpath
-
-
+    _date_of_application_from_field = "//input[@placeholder='From']" # xpath
+    _date_of_application_to_field = "//Input[@placeholder='To']" # xpath
+    _keywords_field = "//Input[@placeholder='Enter comma seperated words...']" # xpath
 
 
     ### Methods

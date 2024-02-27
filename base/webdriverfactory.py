@@ -28,6 +28,7 @@ class WebDriverFactory():
             if self.headless:
                 chrome_options = webdriver.ChromeOptions()
                 chrome_options.add_argument('--headless')
+                chrome_options.add_argument('--window-size=1920,1080')
                 driver = webdriver.Chrome(options=chrome_options)
             else:
                 driver = webdriver.Chrome()

@@ -5,6 +5,7 @@ from utilities.logger import logger
 import logging
 import unittest
 import pytest
+from time import sleep
 
 @pytest.mark.usefixtures("sessionSetUp")
 class CandidatesTest(unittest.TestCase):
