@@ -29,7 +29,7 @@ class SideNavPage(BP):
     _maintenance = "Maintenance" # link or partial link
     _buzz = "Buzz" # link or partial link
     _search_toggled = "//input[contains(@class, 'oxd-input--active') and contains(@class,'toggled')]" # xpath
-    _side_menue_toggle_btn = "//button[contains(@role, 'none') and contains(@type,'button')]"
+    _side_menue_toggle_btn = "//button[contains(@role, 'none') and contains(@type,'button')]" # xpath
 
 
     # methods

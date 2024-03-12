@@ -99,6 +99,6 @@ class CandidatesTest(unittest.TestCase):
         self.ts.mark_final("Successfully delete existing record", result2, "Candidate record is absent")
 
     def test_invalid_date_field_data_TCRP006201(self, date="2024-32-12"):
-        self.cp.enter_app_date_from(date)
+        self.cp.enter_app_date_from_field(date)
         result = self.cp.verify_invalid_date_error_present()
-        self.ts.mark_final("Test invalid date error message appears", result, "Invalid date error message appears")
+        self.ts.mark_final("Test invalid date error message appears", result, "Invalid date error message is present")

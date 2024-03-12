@@ -46,10 +46,10 @@ class TestStatus(SD):
         self.set_result(result, result_message)
 
         if "FAIL" in self.resultList:
-            self.log.error(f"***** {test_name} failed *****")
+            self.log.error(f"***** {test_name} FAILED *****")
             self.resultList.clear()
             assert True == False
         else:
-            self.log.info(f"***** {test_name} successfully completed *****")
+            self.log.info(f"***** {test_name} SUCCESSFULLY COMPLETED *****")
             self.resultList.clear()
             assert True == True

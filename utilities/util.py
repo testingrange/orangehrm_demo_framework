@@ -31,7 +31,7 @@ class Util():
     def verification_message(self, message):
         message_list = message.split()
         is_pos = message_list.index('is')
-        message_list.insert(is_pos+1, "NOT")
+        message_list.insert(is_pos+1, 'NOT')
         return " ".join(message_list)
 
     def sleep(self, sec, info=None):

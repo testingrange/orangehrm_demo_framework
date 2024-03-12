@@ -2,6 +2,7 @@ from base.basepage import BasePage as BP
 from utilities.logger import logger
 from pages.home.login_page import LoginPage
 from pages.side_nav_panel.side_nav_page import SideNavPage
+from selenium.webdriver.common.keys import Keys
 import logging
 
 class CandidatesPage(BP):
@@ -75,6 +76,13 @@ class CandidatesPage(BP):
 
     # Error messages
     _invalid_date_format_error_message = "//span[contains(., 'Should be a valid date in yyyy-dd-mm format')]" # xpath
+    _future_date_error_message = "//span[contains(., 'Should be the current date or a previous date')]" # xpath
+    _unexpected_email_format_error_message = "//span[contains(., 'Expected format: admin@example.com')]" # xpath
+    _more_than_250_characters_error_message = "//span[contains(., 'Should not exceed 250 characters')]" # xpath
+    _contact_number_letters_error_message = "//span[contains(., 'Allows numbers and only + - / ( )')]" # xpath
+    _first_name_exceeding_30_characters_error_message = "//input[@name='firstName']/parent::div/following-sibling::span" # xpath
+    _middle_name_exceeding_30_characters_error_message = "//input[@name='middleName']/parent::div/following-sibling::span" # xpath
+    _last_name_exceeding_30_characters_error_message = "//input[@name='lastName']/parent::div/following-sibling::span" # xpath
 
 
     ### Add candidate page methods
@@ -250,10 +258,11 @@ class CandidatesPage(BP):
     def clear_app_date_from_field(self):
         self.clear_field(self._date_of_application_from_field, "xpath")
 
-    def enter_app_date_from(self, date=""):
+    def enter_app_date_from_field(self, date=""):
         self.np.navigate_to_recruitment_page()
         self.clear_app_date_from_field()
         self.send_keys_to_element(date,self._date_of_application_from_field, "xpath")
+        self.send_keys_to_element(Keys.TAB, self._date_of_application_from_field, "xpath")
 
     def verify_invalid_date_error_present(self):
         return self.is_element_present(self._invalid_date_format_error_message, "xpath")
