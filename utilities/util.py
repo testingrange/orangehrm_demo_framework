@@ -1,4 +1,5 @@
 import time
+from datetime import datetime, timedelta
 from traceback import print_stack
 
 from utilities.logger import logger
@@ -16,6 +17,14 @@ class Util():
 
     def current_day(self):
         return str(time.strftime("%Y-%m-%d"))
+
+    def future_day(self, days):
+        """
+        Returns the date <days> from current date
+        in format 'yyyy-dd-mm' to use in the test method
+        """
+        future_date = datetime.today() + timedelta(days=days)
+        return str(future_date.strftime(f"%Y-%d-%m"))
 
     def verify_text_match(self, expected_text, actual_text):
         if expected_text.lower() == actual_text.lower():

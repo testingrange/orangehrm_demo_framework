@@ -6,6 +6,7 @@ import logging
 import unittest
 import pytest
 from time import sleep
+from utilities.util import Util
 
 @pytest.mark.usefixtures("sessionSetUp")
 class CandidatesTest(unittest.TestCase):
@@ -15,6 +16,7 @@ class CandidatesTest(unittest.TestCase):
         self.lp = LoginPage(self.driver)
         self.cp = CandidatesPage(self.driver)
         self.ts = TestStatus(self.driver)
+        self.util = Util()
 
     #@pytest.mark.run(order=1)
     def test_correct_required_fields_data_TCRP001(self, first_name="Stan", last_name="Smith", email="stan_smith@gmail.com"):
@@ -98,7 +100,24 @@ class CandidatesTest(unittest.TestCase):
         result2 = self.cp.verify_no_record_exists(first_name, last_name, middle_name, vacancy_name, date)
         self.ts.mark_final("Successfully delete existing record", result2, "Candidate record is absent")
 
-    def test_invalid_date_field_data_TCRP006201(self, date="2024-32-12"):
+    def test_future_date_field_data_TCRP006124(self, first_name="Oliver", last_name="Young",
+                                                    email="oliver.young@email.com", middle_name="Thomas",
+                                                    contact_number="+1 555-222-7777", vacancy_name="Software Engineer",
+                                                    keywords="Detail-Oriented, Communicator, Self-Starter",
+                                                    notes="has administrative skills and ensures smooth office operations."
+                                                     "She takes initiative and communicates effectively.", consent="v"):
+        date = self.util.future_day(1)
+        result1 = self.cp.verify_no_record_exists(first_name, last_name, middle_name, vacancy_name, date)
+        self.ts.mark(result1, "Candidate record is absent before the test")
+        self.cp.add_new_candidate(first_name, last_name, email, middle_name, contact_number, vacancy_name, keywords,
+                                  date, notes, consent)
+        result2 = self.cp.verify_invalid_future_date_error_present()
+        self.ts.mark_final("Verify error message appears when future date input", result2, "Future date error message appeared")
+
+    ### Tests Candidates page filter
+
+    def test_filter_invalid_date_field_data_TCRP006201(self, date="2024-32-12"):
         self.cp.enter_app_date_from_field(date)
         result = self.cp.verify_invalid_date_error_present()
         self.ts.mark_final("Test invalid date error message appears", result, "Invalid date error message is present")
+

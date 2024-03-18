@@ -253,6 +253,13 @@ class CandidatesPage(BP):
         self.np.navigate_to_recruitment_page()
         self.delete_the_record(first_name, last_name, middle_name, vacancy_name, date, status)
 
+    def verify_invalid_date_error_present(self):
+        return self.is_element_present(self._invalid_date_format_error_message, "xpath")
+
+    def verify_invalid_future_date_error_present(self):
+        return self.is_element_present(self._future_date_error_message, "xpath")
+
+
     # Filter methods
 
     def clear_app_date_from_field(self):
@@ -264,5 +271,3 @@ class CandidatesPage(BP):
         self.send_keys_to_element(date,self._date_of_application_from_field, "xpath")
         self.send_keys_to_element(Keys.TAB, self._date_of_application_from_field, "xpath")
 
-    def verify_invalid_date_error_present(self):
-        return self.is_element_present(self._invalid_date_format_error_message, "xpath")
